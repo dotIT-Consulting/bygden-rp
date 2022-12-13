@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/.vscode": true
+    },
+    "eslint.workingDirectories": [
+      "src"
+    ]
+  }
