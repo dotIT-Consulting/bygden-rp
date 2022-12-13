@@ -34,9 +34,11 @@ const useStyles = createStyles((theme) => ({
   },
 
   link: {
+    color: 'white',
     textDecoration: 'none',
     '&:hover': {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      color: 'black'
     }
   }
 }));

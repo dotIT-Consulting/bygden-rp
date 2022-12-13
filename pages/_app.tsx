@@ -2,7 +2,8 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { Layout } from "@pages/Layout";
-import { Hygraph } from "@utils/Hygraph";
+import { Hygraph } from "@utils/libs/Hygraph";
+import { CustomTheme } from "@utils/CustomTheme";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -18,6 +19,7 @@ export default function App(props: AppProps) {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
+        theme={CustomTheme}
       >
         <Layout navData={navData}>
           <Component {...pageProps} />

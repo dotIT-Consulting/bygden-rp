@@ -1,6 +1,7 @@
-import { ActionIcon, Box, Button, Center, Container, createStyles, Group, Text, Title } from "@mantine/core"
+import { ActionIcon, Button, Center, Container, createStyles, Grid, Group, Text, Title } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons";
 import { Icons } from "@utils/Icons";
+import { ToHex } from "@utils/libs/ToHex";
 import { IHomeData, ILinkButton } from "@utils/Types";
 import Image from "next/legacy/image";
 
@@ -36,16 +37,6 @@ const useStyles = createStyles((theme) => ({
 		flexDirection: "column",
 	},
 
-	responsiveText: {
-		color: "white",
-		//maxWidth: "68%",
-		fontSize: "5.5em",
-		[theme.fn.smallerThan("sm")]: {
-			//maxWidth: "100%",
-			fontSize: "3.5em",
-		},
-	},
-
 	logoImage: {
 		width: 256,
 		height: 256,
@@ -60,7 +51,7 @@ const useStyles = createStyles((theme) => ({
 	}
 }))
 
-const HomePage = ({ pageProps }: { pageProps: IHomeData }) => {
+const HomePage = ({ pageProps, user }: { pageProps: IHomeData, user: any }) => {
 	const { classes, theme } = useStyles();
 
 	return (
@@ -101,22 +92,24 @@ const HomePage = ({ pageProps }: { pageProps: IHomeData }) => {
 				</Text>
 
 				{pageProps.buttonLinks ? (
-					<Group position="center" mt={16}>
+					<Grid mt={16} grow>
 						{pageProps.buttonLinks.map((button: ILinkButton) => {
 							const variant = button.buttonStyle?.toLowerCase() as typeof button.buttonStyle;
 							return (
-								<Button
-									component='a'
-									variant={variant}
-									href={button.linkUrl}
-									key={button.label}
-									leftIcon={<Icons type={button.buttonIcon} />}
-								>
-									{button.label}
-								</Button>
+								<Grid.Col span={6} key={button.label}>
+									<Button
+										component='a'
+										variant={variant}
+										href={button.linkUrl}
+										leftIcon={<Icons type={button.buttonIcon} />}
+										fullWidth
+									>
+										{button.label}
+									</Button>
+								</Grid.Col>
 							)
 						})}
-					</Group>
+					</Grid>
 				): undefined}
 
 				<div style={{ margin: '0 auto' }}>
@@ -129,7 +122,7 @@ const HomePage = ({ pageProps }: { pageProps: IHomeData }) => {
 						sx={{ 
 							color: 'white',
 							'& :hover': {
-								color: theme.colors.yellow[4]
+								color: 'black'
 							}
 						}}
 					>

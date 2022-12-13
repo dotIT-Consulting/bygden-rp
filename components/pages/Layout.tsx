@@ -5,6 +5,9 @@ import type { ILayoutProps } from '@utils/Types';
 
 const Layout = ({ children, meta: pageMeta, navData }: ILayoutProps) => {
   const router = useRouter();
+
+  console.log(router)
+
   const meta = {
     title: 'Bygden RP - Den bästa RP servern genom tiderna',
     description: 'Bygden RP är en FiveM RP server mest fokus på det ovanliga och gemenskapen, hos oss kommer du aldrig ha en tråkig stund och det kan vi lova!',
@@ -26,7 +29,7 @@ const Layout = ({ children, meta: pageMeta, navData }: ILayoutProps) => {
         <meta property="og:title" content={meta.title} />
         <meta property="og:image" content={meta.cardImage} />
       </Head>
-      <Navbar data={navData} />
+      {router.pathname === '/' ? ( <Navbar data={navData} /> ) : undefined }
       <main id="skip">{children}</main>
     </>
   );

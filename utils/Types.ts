@@ -1,4 +1,4 @@
-import { TablerIcon, TablerIconProps } from "@tabler/icons";
+import { TablerIconProps } from "@tabler/icons";
 import { ReactNode } from "react";
 
 interface IPageMeta {
