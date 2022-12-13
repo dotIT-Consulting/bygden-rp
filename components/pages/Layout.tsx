@@ -33,5 +33,5 @@ const Layout = ({ children, meta: pageMeta, navData }: ILayoutProps) => {
 }
 
 export {
-    Layout
+  Layout
 }

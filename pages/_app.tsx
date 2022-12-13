@@ -30,7 +30,7 @@ export default function App(props: AppProps) {
 App.getInitialProps = async () => {
   const { navbars } = await Hygraph.request(`
     {
-      navbars(first: 1) {
+      navbars(last: 1) {
         logoImage {
           url
         }
@@ -39,6 +39,8 @@ App.getInitialProps = async () => {
           ... on ButtonLink {
             label
             linkUrl
+            buttonIcon
+            buttonStyle
           }
         }
       }
