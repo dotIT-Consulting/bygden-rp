@@ -15,11 +15,11 @@ export default Index;
 export async function getServerSideProps({ req, res }: { req: any, res: any }) {
   await router.run(req, res);
 
-  if (req.user) {
+  if (!req.user) {
     return {
       redirect: {
         permanent: false,
-        destination: "../dashboard"
+        destination: "../auth"
       },
       props: {
         user: req.user || null
