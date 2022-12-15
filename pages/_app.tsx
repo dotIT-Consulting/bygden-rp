@@ -67,18 +67,18 @@ const GetLayout = (path: NextRouter) => {
 App.getInitialProps = async (initial: any) => {
   const { ctx } = initial;
 
-  if (ctx.pathname.startsWith('/dashboard') || ctx.pathname.startsWith('/auth')) {
+  if (ctx?.pathname?.startsWith('/dashboard') || ctx?.pathname?.startsWith('/auth')) {
     await router.run(ctx.req, ctx.res);
   }
 
-  if (!ctx.req.user && ctx.pathname.startsWith('/dashboard')) {
+  if (!ctx?.req?.user && ctx?.pathname?.startsWith('/dashboard')) {
     ctx.res.writeHead(301, { Location:`${SITE_URL}auth` });
     ctx.res.end();
   }
 
   return {
     steam: {
-      user: ctx.req.user || null
+      user: ctx?.req?.user || null
     },
     revalidate: 60
   }
