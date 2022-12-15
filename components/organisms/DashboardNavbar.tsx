@@ -11,14 +11,14 @@ import shallow from 'zustand/shallow';
 //import { Logo } from './Logo';
 
 const mockdata = [
-  { label: 'Hem', icon: IconHome },
-  { label: 'Karaktärer', icon: IconUsers },
-  { label: 'Ärenden', icon: IconLifebuoy },
+  { label: 'Hem', icon: IconHome, link: '/home' },
+  { label: 'Karaktärer', icon: IconUsers, link: '/characters' },
+  { label: 'Ärenden', icon: IconLifebuoy, link: '/tickets' },
 ];
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    backgroundColor: '#111',
+    backgroundColor: '#1A1B1E',
     paddingBottom: 0,
   },
 

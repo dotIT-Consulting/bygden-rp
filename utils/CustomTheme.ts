@@ -78,6 +78,16 @@ const CustomTheme = {
       defaultProps: {
         color: 'white'
       }
+    },
+    Card: {
+      styles: () => ({
+        root: {
+          backgroundColor: '#26272c !important',
+          '&:hover': {
+            backgroundColor: '#323439 !important',
+          }
+        }
+      })
     }
   }
 } as MantineThemeOverride
