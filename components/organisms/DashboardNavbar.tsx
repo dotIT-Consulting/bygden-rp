@@ -68,7 +68,7 @@ const DashboardNavbar = () => {
   );
 
   return (
-    <Navbar height={800} width={{ sm: 300 }} p="md" className={classes.navbar}>
+    <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
       <Navbar.Section className={classes.header}>
         <Group position="left">
           <Avatar radius="md" size="md" src={steamProfile?.photos[2].value} />

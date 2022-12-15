@@ -27,7 +27,9 @@ const useStyles = createStyles((theme) => ({
 const Home = () => {
   const { classes } = useStyles();
 
-  const { data, isLoading } = useSWR('https://141.95.53.138:30120/players.json')
+  const { data, isLoading } = useSWR('/api/bygden/server-info', {
+    refreshInterval: 10 * 1000
+  })
 
   let date = '2022-12-12';
   useEffect(() => {
@@ -111,7 +113,10 @@ const Home = () => {
                   TOTAL EKONOMI
                 </Text>
                 <Text weight={700} size="xl">
-                  100 000 000 SEK
+                  {Number(737899504).toLocaleString('sv-SE', {
+                    style: 'currency',
+                    currency: 'SEK'
+                  })}
                 </Text>
               </div>
             </Group>
@@ -121,12 +126,7 @@ const Home = () => {
 
       <Paper withBorder radius="md" p="xs" mt={32}>
         <Group position="apart">
-          <Title order={3}>Senaste nyheterna</Title>
-          <Anchor>
-            <Text size="xs" color="dimmed" sx={{ lineHeight: 1 }}>
-              LÄS MER
-            </Text>
-          </Anchor>
+          <Title order={3} transform="uppercase">Senaste nyheterna</Title>
         </Group>
 
         <Grid mt={8}>

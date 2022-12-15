@@ -1,4 +1,4 @@
-import { Button, Card, Center, Container, Text, Title } from "@mantine/core"
+import { Button, Center, Container, Paper, Text, Title } from "@mantine/core"
 import { IconBrandSteam } from "@tabler/icons";
 import router from "@utils/libs/Router";
 import { IGetServerSideProps } from "@utils/Types";
@@ -6,7 +6,7 @@ import { IGetServerSideProps } from "@utils/Types";
 const Auth = () => {
   return (
     <Container mt="20vh">
-      <Card>
+      <Paper withBorder radius="md" p="xs">
         <Title order={3} align="center">Du behöver först logga in</Title>
 
         <Center mt={32} mb={32}>
@@ -19,7 +19,7 @@ const Auth = () => {
           Notera: du kommer att skickas till Steams officiella hemsida för att logga in.{<br />}
           Vi hanterar ej dina inloggningsuppgifter och vi är inte affilierad med Valve på något vis.
         </Text>
-      </Card>
+      </Paper>
     </Container>
   )
 }
