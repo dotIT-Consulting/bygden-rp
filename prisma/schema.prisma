@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,1112 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model apartments {
+  id        Int     @id @default(autoincrement())
+  name      String? @db.VarChar(255)
+  type      String? @db.VarChar(255)
+  label     String? @db.VarChar(255)
+  citizenid String? @db.VarChar(255)
+
+  @@index([citizenid], map: "citizenid")
+  @@index([name], map: "name")
+}
+
+model bank_accounts {
+  record_id    BigInt                     @id @default(autoincrement())
+  citizenid    String?                    @unique(map: "citizenid") @db.VarChar(250)
+  business     String?                    @db.VarChar(50)
+  businessid   Int?
+  gangid       String?                    @db.VarChar(50)
+  amount       BigInt                     @default(0)
+  account_type bank_accounts_account_type @default(Current)
+
+  @@index([business], map: "business")
+  @@index([businessid], map: "businessid")
+  @@index([gangid], map: "gangid")
+}
+
+model bank_statements {
+  record_id  BigInt  @id @default(autoincrement())
+  citizenid  String? @db.VarChar(50)
+  account    String? @db.VarChar(50)
+  business   String? @db.VarChar(50)
+  businessid Int?
+  gangid     String? @db.VarChar(50)
+  deposited  Int?
+  withdraw   Int?
+  balance    Int?
+  date       String? @db.VarChar(50)
+  type       String? @db.VarChar(255)
+
+  @@index([business], map: "business")
+  @@index([businessid], map: "businessid")
+  @@index([gangid], map: "gangid")
+}
+
+model bans {
+  id       Int     @id @default(autoincrement())
+  name     String? @db.VarChar(50)
+  license  String? @db.VarChar(50)
+  discord  String? @db.VarChar(50)
+  ip       String? @db.VarChar(50)
+  reason   String? @db.Text
+  expire   Int?
+  bannedby String  @default("LeBanhammer") @db.VarChar(255)
+
+  @@index([discord], map: "discord")
+  @@index([ip], map: "ip")
+  @@index([license], map: "license")
+}
+
+model bennys_shop {
+  citizenid String  @id @db.VarChar(50)
+  items     String? @db.LongText
+
+  @@index([citizenid], map: "citizenid")
+}
+
+model billing {
+  id        Int    @id @default(autoincrement())
+  citizenid String @db.VarChar(255)
+  sender    String @db.VarChar(255)
+  target    String @db.VarChar(255)
+  label     String @db.VarChar(255)
+  amount    Int
+
+  @@index([citizenid], map: "citizenid")
+}
+
+model boost_contract {
+  id      Int       @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
+  owner   String?   @db.VarChar(50)
+  data    String?   @db.Text
+  started DateTime? @db.DateTime(0)
+  expire  DateTime? @db.DateTime(0)
+  onsale  Int?      @default(0)
+  price   Int?
+
+  @@index([owner], map: "owner")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model cardealer_stock {
+  vehicle String? @db.VarChar(255)
+  price   Int?    @default(0)
+  stock   Int?    @default(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model codem_hud_data {
+  identifier String? @unique(map: "identifier") @db.VarChar(65)
+  data       String? @db.LongText
+  stress     Int?
+
+  @@map("codem-hud-data")
+  @@ignore
+}
+
+model crypto {
+  crypto  String  @id @default("qbit") @db.VarChar(50)
+  worth   Int     @default(0)
+  history String? @db.Text
+}
+
+model crypto_transactions {
+  id        Int       @id @default(autoincrement())
+  citizenid String?   @db.VarChar(50)
+  title     String?   @db.VarChar(50)
+  message   String?   @db.VarChar(50)
+  date      DateTime? @default(now()) @db.Timestamp(0)
+
+  @@index([citizenid], map: "citizenid")
+}
+
+model dealers {
+  id        Int     @id @default(autoincrement())
+  name      String  @default("0") @db.VarChar(50)
+  coords    String? @db.LongText
+  time      String? @db.LongText
+  createdby String  @default("0") @db.VarChar(50)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dpkeybinds {
+  id       String? @db.VarChar(50)
+  keybind1 String? @default("num4") @db.VarChar(50)
+  emote1   String? @default("") @db.VarChar(255)
+  keybind2 String? @default("num5") @db.VarChar(50)
+  emote2   String? @default("") @db.VarChar(255)
+  keybind3 String? @default("num6") @db.VarChar(50)
+  emote3   String? @default("") @db.VarChar(255)
+  keybind4 String? @default("num7") @db.VarChar(50)
+  emote4   String? @default("") @db.VarChar(255)
+  keybind5 String? @default("num8") @db.VarChar(50)
+  emote5   String? @default("") @db.VarChar(255)
+  keybind6 String? @default("num9") @db.VarChar(50)
+  emote6   String? @default("") @db.VarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model elite_cases {
+  citizenid  String? @db.VarChar(50)
+  inventory  String? @db.LongText
+  balance    Int?    @default(0)
+  profilepic String? @default("images/ava.jpg") @db.VarChar(50)
+
+  @@ignore
+}
+
+model elite_hub {
+  license String @unique(map: "license") @db.VarChar(255)
+  coins   Int    @default(0)
+  vip     Int?   @default(0)
+}
+
+model elite_hub_pending {
+  transactionId String @id @db.VarChar(50)
+  package       String @default("") @db.VarChar(50)
+  redeemed      Int    @default(0)
+}
+
+model gloveboxitems {
+  id    Int     @default(autoincrement())
+  plate String  @id @default("[]") @db.VarChar(255)
+  items String? @db.LongText
+
+  @@index([id], map: "id")
+}
+
+model house_plants {
+  id       Int     @id @default(autoincrement())
+  building String? @db.VarChar(50)
+  stage    String? @default("stage-a") @db.VarChar(50)
+  sort     String? @db.VarChar(50)
+  gender   String? @db.VarChar(50)
+  food     Int?    @default(100)
+  health   Int?    @default(100)
+  progress Int?    @default(0)
+  coords   String? @db.Text
+  plantid  String? @db.VarChar(50)
+
+  @@index([building], map: "building")
+  @@index([plantid], map: "plantid")
+}
+
+model houselocations {
+  id     Int      @id @default(autoincrement())
+  name   String?  @db.VarChar(255)
+  label  String?  @db.VarChar(255)
+  coords String?  @db.Text
+  owned  Boolean?
+  price  Int?
+  tier   Int?     @db.TinyInt
+  garage String?  @db.Text
+
+  @@index([name], map: "name")
+}
+
+model jerzys_spawns {
+  id               BigInt  @id @default(autoincrement())
+  cord_name        String  @db.Text
+  cord_description String? @db.Text
+  top_value        String  @db.Text
+  left_value       String  @db.Text
+  deleted          Boolean
+  x_cord           String  @db.Text
+  y_cord           String  @db.Text
+  z_cord           String  @db.Text
+}
+
+model loaf_current_property {
+  identifier String @id @db.VarChar(100)
+  propertyid Int
+  id         String @db.VarChar(10)
+}
+
+model loaf_furniture {
+  identifier String @db.VarChar(100)
+  object     String @db.VarChar(100)
+  amount     Int    @default(0)
+
+  @@id([identifier, object])
+}
+
+model loaf_houses {
+  id              Int     @id
+  label           String  @default("Property") @db.VarChar(40)
+  house_apart     String  @default("house") @db.VarChar(40)
+  interior_type   String  @default("shell") @db.VarChar(40)
+  interior        String? @db.VarChar(40)
+  category        String? @db.VarChar(40)
+  entrance        String  @db.VarChar(255)
+  price           Int     @default(100000)
+  rent            Int?
+  garage_entrance String? @db.VarChar(255)
+  garage_exit     String? @db.VarChar(255)
+  misc            String? @db.LongText
+}
+
+model loaf_invoices {
+  id           String   @id @db.VarChar(15)
+  issued       DateTime @default(now()) @db.Timestamp(0)
+  biller       String   @db.VarChar(150)
+  biller_name  String   @db.VarChar(150)
+  billed       String   @db.VarChar(150)
+  billed_name  String   @db.VarChar(150)
+  owner        String   @db.VarChar(150)
+  due          DateTime @db.Date
+  interest     Int      @default(0)
+  late         Int      @default(0)
+  amount       Int      @default(0)
+  name         String   @db.VarChar(150)
+  description  String   @default("Unknown") @db.VarChar(150)
+  company      String?  @db.VarChar(50)
+  company_name String?  @db.VarChar(150)
+  signed       Boolean  @default(false)
+  signature    String?  @db.LongText
+}
+
+model loaf_keys {
+  unique_id  String  @id @db.VarChar(15)
+  key_id     String  @db.VarChar(255)
+  identifier String  @db.VarChar(255)
+  key_data   String? @db.LongText
+}
+
+model loaf_properties {
+  owner        String   @db.VarChar(100)
+  propertyid   Int
+  shell        String   @db.VarChar(75)
+  furniture    String?  @db.LongText
+  id           String?  @db.VarChar(10)
+  rent         String?  @db.VarChar(100)
+  last_entered DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([owner, propertyid])
+}
+
+model loaf_rent {
+  rent_wallet String @id @db.VarChar(100)
+  owner       String @db.VarChar(100)
+  propertyid  Int
+  balance     Int    @default(0)
+  rent_due    Int    @default(0)
+}
+
+model management_funds {
+  id       Int                   @id @default(autoincrement())
+  job_name String                @unique(map: "job_name") @db.VarChar(50)
+  amount   Int
+  type     management_funds_type @default(boss)
+
+  @@index([type], map: "type")
+}
+
+model mdt_bolos {
+  id               Int     @id @default(autoincrement())
+  author           String? @db.VarChar(50)
+  title            String? @db.VarChar(50)
+  plate            String? @db.VarChar(50)
+  owner            String? @db.VarChar(50)
+  individual       String? @db.VarChar(50)
+  detail           String? @db.Text
+  tags             String? @db.Text
+  gallery          String? @db.Text
+  officersinvolved String? @db.Text
+  time             String? @db.VarChar(20)
+  jobtype          String  @default("police") @db.VarChar(25)
+}
+
+model mdt_bulletin {
+  id      Int     @id @default(autoincrement())
+  title   String  @db.Text
+  desc    String  @db.Text
+  author  String  @db.VarChar(50)
+  time    String  @db.VarChar(20)
+  jobtype String? @default("police") @db.VarChar(25)
+}
+
+model mdt_convictions {
+  id             Int     @id @default(autoincrement())
+  cid            String? @db.VarChar(50)
+  linkedincident Int     @default(0)
+  warrant        String? @db.VarChar(50)
+  guilty         String? @db.VarChar(50)
+  processed      String? @db.VarChar(50)
+  associated     String? @default("0") @db.VarChar(50)
+  charges        String? @db.Text
+  fine           Int?    @default(0)
+  sentence       Int?    @default(0)
+  recfine        Int?    @default(0)
+  recsentence    Int?    @default(0)
+  time           String? @db.VarChar(20)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model mdt_data {
+  id          Int     @default(autoincrement())
+  cid         String? @db.VarChar(20)
+  information String? @db.MediumText
+  tags        String  @db.Text
+  gallery     String  @db.Text
+  jobtype     String? @default("police") @db.VarChar(25)
+  pfp         String? @db.Text
+  fingerprint String? @db.VarChar(50)
+
+  @@index([id], map: "id")
+  @@ignore
+}
+
+model mdt_impound {
+  id           Int    @id @default(autoincrement())
+  vehicleid    Int
+  linkedreport Int
+  fee          Int?
+  time         String @db.VarChar(255)
+}
+
+model mdt_incidents {
+  id               Int     @id @default(autoincrement())
+  author           String  @default("") @db.VarChar(50)
+  title            String  @default("0") @db.VarChar(50)
+  details          String  @db.Text
+  tags             String  @db.Text
+  officersinvolved String  @db.Text
+  civsinvolved     String  @db.Text
+  evidence         String  @db.Text
+  time             String? @db.VarChar(20)
+  jobtype          String  @default("police") @db.VarChar(25)
+}
+
+model mdt_logs {
+  id      Int     @id @default(autoincrement())
+  text    String  @db.Text
+  time    String? @db.VarChar(20)
+  jobtype String? @default("police") @db.VarChar(25)
+}
+
+model mdt_reports {
+  id               Int     @id @default(autoincrement())
+  author           String? @db.VarChar(50)
+  title            String? @db.VarChar(255)
+  type             String? @db.VarChar(50)
+  details          String? @db.Text
+  tags             String? @db.Text
+  officersinvolved String? @db.Text
+  civsinvolved     String? @db.Text
+  gallery          String? @db.Text
+  time             String? @db.VarChar(20)
+  jobtype          String? @default("police") @db.VarChar(25)
+}
+
+model mdt_vehicleinfo {
+  id          Int     @id @default(autoincrement())
+  plate       String? @db.VarChar(50)
+  information String? @default("") @db.VarChar(2000)
+  stolen      Boolean @default(false)
+  code5       Boolean @default(false)
+  image       String? @default("") @db.VarChar(255)
+}
+
+model news_system {
+  id         Int       @id @default(autoincrement())
+  news_text  String    @db.LongText
+  written_by String    @default("") @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+}
+
+model occasion_vehicles {
+  id          Int     @id @default(autoincrement())
+  seller      String? @db.VarChar(50)
+  price       Int?
+  description String? @db.LongText
+  plate       String? @db.VarChar(50)
+  model       String? @db.VarChar(50)
+  mods        String? @db.LongText
+  occasionid  String? @db.VarChar(50)
+
+  @@index([occasionid], map: "occasionId")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model okokbanking_societies {
+  society        String? @db.VarChar(255)
+  society_name   String? @db.VarChar(255)
+  value          Int?
+  iban           String  @db.VarChar(255)
+  is_withdrawing Int?
+
+  @@ignore
+}
+
+model okokbanking_transactions {
+  id                  Int    @id @default(autoincrement())
+  receiver_identifier String @db.VarChar(255)
+  receiver_name       String @db.VarChar(255)
+  sender_identifier   String @db.VarChar(255)
+  sender_name         String @db.VarChar(255)
+  date                String @db.VarChar(255)
+  value               Int
+  type                String @db.VarChar(255)
+}
+
+model phone_backups {
+  identifier   String @id @db.VarChar(100)
+  phone_number String @db.VarChar(15)
+}
+
+model phone_clock_alarms {
+  id           String   @db.VarChar(50)
+  phone_number String   @db.VarChar(15)
+  hours        Int      @default(0)
+  minutes      Int      @default(0)
+  label        String?  @db.VarChar(50)
+  enabled      Boolean? @default(true)
+
+  @@id([id, phone_number])
+}
+
+model phone_darkchat_accounts {
+  phone_number String @db.VarChar(15)
+  username     String @id @db.VarChar(20)
+}
+
+model phone_darkchat_channels {
+  name         String   @id @db.VarChar(50)
+  last_message String   @default("") @db.VarChar(50)
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_darkchat_members {
+  channel_name String @db.VarChar(50)
+  username     String @db.VarChar(20)
+
+  @@id([channel_name, username])
+}
+
+model phone_darkchat_messages {
+  id        Int      @id @default(autoincrement())
+  channel   String   @db.VarChar(50)
+  sender    String   @db.VarChar(20)
+  content   String?  @db.VarChar(1000)
+  timestamp DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_instagram_accounts {
+  display_name  String   @db.VarChar(30)
+  username      String   @id @db.VarChar(20)
+  password      String   @db.VarChar(100)
+  profile_image String?  @db.VarChar(200)
+  bio           String?  @db.VarChar(100)
+  phone_number  String   @db.VarChar(15)
+  verified      Boolean? @default(false)
+  date_joined   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_instagram_comments {
+  id         String   @id @db.VarChar(50)
+  post_id    String   @db.VarChar(50)
+  username   String   @db.VarChar(20)
+  comment    String   @default("") @db.VarChar(500)
+  like_count Int      @default(0)
+  timestamp  DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_instagram_follows {
+  followed String @db.VarChar(20)
+  follower String @db.VarChar(20)
+
+  @@id([followed, follower])
+}
+
+model phone_instagram_likes {
+  id         String  @db.VarChar(50)
+  username   String  @db.VarChar(20)
+  is_comment Boolean @default(false)
+
+  @@id([id, username])
+}
+
+model phone_instagram_loggedin {
+  phone_number String @id @db.VarChar(15)
+  username     String @db.VarChar(20)
+}
+
+model phone_instagram_messages {
+  id          String   @id @db.VarChar(50)
+  sender      String   @db.VarChar(20)
+  recipient   String   @db.VarChar(20)
+  content     String?  @db.VarChar(1000)
+  attachments String?  @db.Text
+  timestamp   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_instagram_notifications {
+  id        String   @id @db.VarChar(50)
+  username  String   @db.VarChar(20)
+  from      String   @db.VarChar(20)
+  type      String   @db.VarChar(20)
+  post_id   String?  @db.VarChar(50)
+  timestamp DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_instagram_posts {
+  id            String   @id @db.VarChar(50)
+  media         String?  @db.Text
+  caption       String   @default("") @db.VarChar(500)
+  like_count    Int      @default(0)
+  comment_count Int      @default(0)
+  username      String   @db.VarChar(20)
+  timestamp     DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_last_phone {
+  identifier   String @id @db.VarChar(100)
+  phone_number String @db.VarChar(15)
+}
+
+model phone_mail_accounts {
+  address             String                @id @db.VarChar(100)
+  password            String                @db.VarChar(100)
+  phone_mail_loggedin phone_mail_loggedin[]
+}
+
+model phone_mail_loggedin {
+  address             String              @db.VarChar(100)
+  phone_number        String              @db.VarChar(15)
+  phone_mail_accounts phone_mail_accounts @relation(fields: [address], references: [address], onDelete: Cascade, onUpdate: NoAction, map: "phone_mail_loggedin_ibfk_1")
+
+  @@id([address, phone_number])
+}
+
+model phone_mail_messages {
+  id          String   @id @db.VarChar(50)
+  recipient   String   @db.VarChar(100)
+  sender      String   @db.VarChar(100)
+  subject     String   @db.VarChar(100)
+  content     String   @db.Text
+  attachments String?  @db.LongText
+  actions     String?  @db.LongText
+  read        Boolean  @default(false)
+  timestamp   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_marketplace_posts {
+  id           String   @id @db.VarChar(50)
+  phone_number String   @db.VarChar(15)
+  title        String   @db.VarChar(50)
+  description  String   @db.VarChar(1000)
+  attachments  String?  @db.Text
+  price        Int
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_message_channels {
+  channel_id             String   @id @db.VarChar(50)
+  is_group               Boolean  @default(false)
+  last_message           String   @default("") @db.VarChar(50)
+  last_message_timestamp DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_message_members {
+  channel_id   String  @db.VarChar(50)
+  phone_number String  @db.VarChar(15)
+  is_owner     Boolean @default(false)
+
+  @@id([channel_id, phone_number])
+}
+
+model phone_message_messages {
+  id          String   @id @db.VarChar(50)
+  channel_id  String   @db.VarChar(50)
+  sender      String   @db.VarChar(15)
+  content     String?  @db.VarChar(1000)
+  attachments String?  @db.Text
+  timestamp   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_message_unread {
+  channel_id   String @db.VarChar(50)
+  phone_number String @db.VarChar(15)
+  unread       Int    @default(0)
+
+  @@id([channel_id, phone_number])
+}
+
+model phone_music_playlists {
+  id                          String                        @id @db.VarChar(50)
+  phone_number                String                        @db.VarChar(15)
+  name                        String                        @db.VarChar(50)
+  cover                       String?                       @db.VarChar(500)
+  phone_music_saved_playlists phone_music_saved_playlists[]
+  phone_music_songs           phone_music_songs[]
+}
+
+model phone_music_saved_playlists {
+  playlist_id           String                @db.VarChar(50)
+  phone_number          String                @db.VarChar(15)
+  phone_music_playlists phone_music_playlists @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "phone_music_saved_playlists_ibfk_1")
+
+  @@id([playlist_id, phone_number])
+}
+
+model phone_music_songs {
+  song_id               String                @db.VarChar(100)
+  playlist_id           String                @db.VarChar(50)
+  phone_music_playlists phone_music_playlists @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "phone_music_songs_ibfk_1")
+
+  @@id([song_id, playlist_id])
+  @@index([playlist_id], map: "playlist_id")
+}
+
+model phone_notes {
+  id           String   @id @db.VarChar(50)
+  phone_number String   @db.VarChar(15)
+  title        String   @db.VarChar(50)
+  content      String?  @db.LongText
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_notifications {
+  id           String   @id @db.VarChar(50)
+  phone_number String   @db.VarChar(15)
+  app          String   @db.VarChar(50)
+  title        String?  @db.VarChar(50)
+  content      String?  @db.VarChar(500)
+  thumbnail    String?  @db.VarChar(250)
+  avatar       String?  @db.VarChar(250)
+  show_avatar  Boolean? @default(false)
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_phone_blocked_numbers {
+  phone_number   String @db.VarChar(15)
+  blocked_number String @db.VarChar(15)
+
+  @@id([phone_number, blocked_number])
+}
+
+model phone_phone_calls {
+  id             String   @id @db.VarChar(50)
+  caller         String   @db.VarChar(15)
+  callee         String   @db.VarChar(15)
+  duration       Int      @default(0)
+  answered       Boolean? @default(false)
+  hide_caller_id Boolean? @default(false)
+  timestamp      DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_phone_contacts {
+  contact_phone_number String   @db.VarChar(15)
+  firstname            String   @default("") @db.VarChar(50)
+  lastname             String   @default("") @db.VarChar(50)
+  profile_image        String?  @db.VarChar(200)
+  favourite            Boolean? @default(false)
+  phone_number         String   @db.VarChar(15)
+
+  @@id([contact_phone_number, phone_number])
+}
+
+model phone_phones {
+  id           String   @id @db.VarChar(100)
+  phone_number String   @db.VarChar(15)
+  name         String?  @db.VarChar(50)
+  pin          String?  @db.VarChar(4)
+  face_id      String?  @db.VarChar(100)
+  settings     String?  @db.LongText
+  is_setup     Boolean? @default(false)
+  assigned     Boolean? @default(false)
+  battery      Int      @default(100)
+}
+
+model phone_photos {
+  phone_number String   @db.VarChar(15)
+  link         String   @db.VarChar(200)
+  is_video     Boolean? @default(false)
+  size         Float    @default(0) @db.Float
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([phone_number, link])
+}
+
+model phone_services_channels {
+  id                      String                    @id @db.VarChar(50)
+  phone_number            String                    @db.VarChar(15)
+  company                 String                    @db.VarChar(50)
+  last_message            String?                   @db.VarChar(100)
+  timestamp               DateTime                  @default(now()) @db.Timestamp(0)
+  phone_services_messages phone_services_messages[]
+}
+
+model phone_services_messages {
+  id                      String                  @id @db.VarChar(50)
+  channel_id              String                  @db.VarChar(50)
+  sender                  String                  @db.VarChar(15)
+  message                 String                  @db.VarChar(1000)
+  x_pos                   Int?
+  y_pos                   Int?
+  timestamp               DateTime                @default(now()) @db.Timestamp(0)
+  phone_services_channels phone_services_channels @relation(fields: [channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "phone_services_messages_ibfk_1")
+
+  @@index([channel_id], map: "channel_id")
+}
+
+model phone_tinder_accounts {
+  name             String   @db.VarChar(50)
+  phone_number     String   @id @db.VarChar(15)
+  photos           String?  @db.Text
+  bio              String?  @db.VarChar(500)
+  dob              DateTime @default(now()) @db.Timestamp(0)
+  is_male          Boolean
+  interested_men   Boolean
+  interested_women Boolean
+}
+
+model phone_tinder_matches {
+  phone_number_1           String   @db.VarChar(15)
+  phone_number_2           String   @db.VarChar(15)
+  latest_message           String?  @db.VarChar(1000)
+  latest_message_timestamp DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([phone_number_1, phone_number_2])
+}
+
+model phone_tinder_messages {
+  id          String   @id @db.VarChar(50)
+  sender      String   @db.VarChar(15)
+  recipient   String   @db.VarChar(15)
+  content     String?  @db.VarChar(1000)
+  attachments String?  @db.Text
+  timestamp   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_tinder_swipes {
+  swiper String  @db.VarChar(15)
+  swipee String  @db.VarChar(15)
+  liked  Boolean @default(false)
+
+  @@id([swiper, swipee])
+}
+
+model phone_twitter_accounts {
+  display_name    String   @db.VarChar(30)
+  username        String   @id @db.VarChar(20)
+  password        String   @db.VarChar(100)
+  phone_number    String   @db.VarChar(15)
+  bio             String?  @db.VarChar(100)
+  profile_image   String?  @db.VarChar(200)
+  profile_header  String?  @db.VarChar(200)
+  verified        Boolean? @default(false)
+  follower_count  Int      @default(0)
+  following_count Int      @default(0)
+  date_joined     DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_twitter_follows {
+  followed      String  @db.VarChar(20)
+  follower      String  @db.VarChar(20)
+  notifications Boolean @default(false)
+
+  @@id([followed, follower])
+}
+
+model phone_twitter_hashtags {
+  hashtag   String   @id @db.VarChar(50)
+  amount    Int      @default(0)
+  last_used DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_twitter_likes {
+  tweet_id  String   @db.VarChar(50)
+  username  String   @db.VarChar(20)
+  timestamp DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([tweet_id, username])
+}
+
+model phone_twitter_loggedin {
+  phone_number String @id @db.VarChar(15)
+  username     String @db.VarChar(20)
+}
+
+model phone_twitter_messages {
+  id          String   @id @db.VarChar(50)
+  sender      String   @db.VarChar(20)
+  recipient   String   @db.VarChar(20)
+  content     String?  @db.VarChar(1000)
+  attachments String?  @db.Text
+  timestamp   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_twitter_notifications {
+  id        String   @id @db.VarChar(50)
+  username  String   @db.VarChar(20)
+  from      String   @db.VarChar(20)
+  type      String   @db.VarChar(20)
+  tweet_id  String?  @db.VarChar(50)
+  timestamp DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_twitter_retweets {
+  tweet_id  String   @db.VarChar(50)
+  username  String   @db.VarChar(20)
+  timestamp DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([tweet_id, username])
+}
+
+model phone_twitter_tweets {
+  id            String   @id @db.VarChar(50)
+  username      String   @db.VarChar(20)
+  content       String?  @db.VarChar(280)
+  attachments   String?  @db.Text
+  reply_to      String?  @db.VarChar(50)
+  like_count    Int?     @default(0)
+  reply_count   Int?     @default(0)
+  retweet_count Int?     @default(0)
+  timestamp     DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_wallet_transactions {
+  id           Int      @id @default(autoincrement())
+  phone_number String   @db.VarChar(15)
+  amount       Int
+  company      String   @db.VarChar(50)
+  logo         String?  @db.VarChar(200)
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_yellow_pages_posts {
+  id           String   @id @db.VarChar(50)
+  phone_number String   @db.VarChar(15)
+  title        String   @db.VarChar(50)
+  description  String   @db.VarChar(1000)
+  attachment   String?  @db.VarChar(500)
+  price        Int?
+  timestamp    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model plants {
+  id     Int     @id @default(autoincrement())
+  coords String? @db.LongText
+  type   String  @db.VarChar(100)
+  water  Float
+  food   Float
+  growth Float
+  rate   Float
+}
+
+model player_contacts {
+  id        Int     @id @default(autoincrement())
+  citizenid String? @db.VarChar(50)
+  name      String? @db.VarChar(50)
+  number    String? @db.VarChar(50)
+  iban      String  @default("0") @db.VarChar(50)
+
+  @@index([citizenid], map: "citizenid")
+}
+
+model player_houses {
+  id          Int     @id @default(autoincrement())
+  house       String  @db.VarChar(50)
+  identifier  String? @db.VarChar(50)
+  citizenid   String? @db.VarChar(50)
+  keyholders  String? @db.Text
+  decorations String? @db.Text
+  stash       String? @db.Text
+  outfit      String? @db.Text
+  logout      String? @db.Text
+
+  @@index([citizenid], map: "citizenid")
+  @@index([house], map: "house")
+  @@index([identifier], map: "identifier")
+}
+
+model player_mails {
+  id        Int       @id @default(autoincrement())
+  citizenid String?   @db.VarChar(50)
+  sender    String?   @db.VarChar(50)
+  subject   String?   @db.VarChar(50)
+  message   String?   @db.Text
+  read      Int?      @default(0) @db.TinyInt
+  mailid    Int?
+  date      DateTime? @default(now()) @db.Timestamp(0)
+  button    String?   @db.Text
+
+  @@index([citizenid], map: "citizenid")
+}
+
+model player_outfits {
+  id         Int     @id @default(autoincrement())
+  citizenid  String? @db.VarChar(50)
+  outfitname String  @default("0") @db.VarChar(50)
+  model      String? @db.VarChar(50)
+  props      String? @db.VarChar(1000)
+  components String? @db.VarChar(1500)
+
+  @@unique([citizenid, outfitname, model], map: "citizenid_outfitname_model")
+  @@index([citizenid], map: "citizenid")
+}
+
+model player_vehicles {
+  id              Int     @id @default(autoincrement())
+  license         String? @db.VarChar(50)
+  citizenid       String? @db.VarChar(50)
+  vehicle         String? @db.VarChar(50)
+  hash            String? @db.VarChar(50)
+  mods            String? @db.LongText
+  plate           String  @db.VarChar(50)
+  fakeplate       String? @db.VarChar(50)
+  garage          String? @default("square") @db.VarChar(50)
+  fuel            Int?    @default(100)
+  engine          Float?  @default(1000) @db.Float
+  body            Float?  @default(1000) @db.Float
+  state           Int?    @default(1)
+  depotprice      Int     @default(0)
+  drivingdistance Int?
+  status          String? @db.Text
+  balance         Int     @default(0)
+  paymentamount   Int     @default(0)
+  paymentsleft    Int     @default(0)
+  financetime     Int     @default(0)
+  impounded       Boolean @default(false)
+  carseller       Int?    @default(0)
+  vinnumber       String? @db.VarChar(50)
+  vinscratch      Int?    @default(0)
+  airSuspension   Int?    @default(0)
+  wheels          String? @db.VarChar(255)
+  lock            Int?    @default(4321)
+  damages         String? @db.LongText
+  job             String? @default("civ") @db.VarChar(50)
+
+  @@index([citizenid], map: "citizenid")
+  @@index([license], map: "license")
+  @@index([plate], map: "plate")
+}
+
+model player_warns {
+  id               Int     @id @default(autoincrement())
+  senderIdentifier String? @db.VarChar(50)
+  targetIdentifier String? @db.VarChar(50)
+  reason           String? @db.Text
+  warnId           String? @db.VarChar(50)
+}
+
+model players {
+  id              Int      @default(autoincrement())
+  citizenid       String   @id @db.VarChar(50)
+  cid             Int?
+  license         String   @db.VarChar(255)
+  name            String   @db.VarChar(255)
+  money           String   @db.Text
+  charinfo        String?  @db.Text
+  job             String   @db.Text
+  gang            String?  @db.Text
+  position        String   @db.Text
+  metadata        String   @db.Text
+  inventory       String?  @db.LongText
+  last_updated    DateTime @default(now()) @db.Timestamp(0)
+  phone_number    String?  @db.VarChar(20)
+  iban            String?  @db.VarChar(255)
+  pincode         Int?
+  crafting_level  Int      @default(0)
+  credits         Int      @default(0)
+  tasks           String   @default("") @db.VarChar(255)
+  tasks_completed String   @default("") @db.VarChar(255)
+  winnings        String   @default("") @db.VarChar(255)
+
+  @@index([id], map: "id")
+  @@index([last_updated], map: "last_updated")
+  @@index([license], map: "license")
+}
+
+model playerskins {
+  id        Int    @id @default(autoincrement())
+  citizenid String @db.VarChar(255)
+  model     String @db.VarChar(255)
+  skin      String @db.Text
+  active    Int    @default(1) @db.TinyInt
+
+  @@index([active], map: "active")
+  @@index([citizenid], map: "citizenid")
+}
+
+model processing {
+  id     Int     @id @default(autoincrement())
+  type   String  @db.VarChar(100)
+  item   String? @db.LongText
+  time   Int
+  coords String? @db.LongText
+  rot    Float
+}
+
+model sadiqbilling {
+  id                  Int       @id @default(autoincrement())
+  receiver_identifier String    @db.VarChar(255)
+  receiver_name       String    @db.VarChar(255)
+  author_identifier   String    @db.VarChar(255)
+  author_name         String?   @db.VarChar(255)
+  society             String    @db.VarChar(255)
+  society_name        String    @db.VarChar(255)
+  item                String    @db.VarChar(255)
+  invoice_value       Int
+  status              String    @db.VarChar(50)
+  notes               String?   @default(" ") @db.VarChar(255)
+  sent_date           String    @db.VarChar(255)
+  limit_pay_date      String?   @db.VarChar(255)
+  fees_amount         Int?      @default(0)
+  paid_date           DateTime? @db.Timestamp(0)
+}
+
+model stashitems {
+  id    Int     @default(autoincrement())
+  stash String  @id @default("[]") @db.VarChar(255)
+  items String? @db.LongText
+
+  @@index([id], map: "id")
+}
+
+model trunkitems {
+  id    Int     @default(autoincrement())
+  plate String  @id @default("[]") @db.VarChar(255)
+  items String? @db.LongText
+
+  @@index([id], map: "id")
+}
+
+model twitter_tweets {
+  id        Int     @id @default(autoincrement())
+  firstName String? @db.VarChar(50)
+  lastName  String? @db.VarChar(50)
+  message   String? @db.VarChar(50)
+  url       String? @db.VarChar(255)
+  time      String? @db.VarChar(50)
+  picture   String? @db.VarChar(255)
+  owner     String? @db.VarChar(50)
+}
+
+model vehicle_parts {
+  id      Int    @id @default(autoincrement())
+  plate   String @db.VarChar(100)
+  parts   String @db.LongText
+  mileage Float  @default(0) @db.Float
+}
+
+enum management_funds_type {
+  boss
+  gang
+}
+
+enum bank_accounts_account_type {
+  Current
+  Savings
+  Business
+  Gang
 }

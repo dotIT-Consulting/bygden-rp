@@ -1,4 +1,5 @@
 import { TablerIconProps } from "@tabler/icons";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { ReactNode } from "react";
 
 interface IPageMeta {
@@ -44,11 +45,45 @@ type ITablerIcons = TablerIconProps & {
   type: string | undefined;
 }
 
+interface ISteamResponse {
+  provider: string,
+  _json: {
+    steamid: string,
+    communityvisibilitystate: number,
+    profilestate: number,
+    personaname: string,
+    profileurl: string,
+    avatar: string,
+    avatarmedium: string,
+    avatarfull: string,
+    avatarhash: string,
+    lastlogoff: number,
+    personastate: number,
+    primaryclanid: string,
+    timecreated: number,
+    personastateflags: number,
+    loccountrycode: string
+  },
+  id: string,
+  displayName: string,
+  photos: any[],
+  hex_id: string | undefined,
+  hex_id_format: string | undefined
+}
+
+interface IGetServerSideProps {
+  req: NextApiRequest & {
+    user: ISteamResponse
+  }
+  res: NextApiResponse
+}
+
 export type {
   IPageMeta,
   ILayoutProps,
   ILinkButton,
   INavData,
   ITablerIcons,
-  IHomeData
+  IHomeData,
+  IGetServerSideProps
 }

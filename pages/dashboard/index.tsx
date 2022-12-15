@@ -1,5 +1,6 @@
 import { AppShell } from "@mantine/core"
 import router from "@utils/libs/Router";
+import { IGetServerSideProps } from "@utils/Types";
 
 const Index = ({ user }: { user: any }) => {
 
@@ -12,7 +13,7 @@ const Index = ({ user }: { user: any }) => {
 
 export default Index;
 
-export async function getServerSideProps({ req, res }: { req: any, res: any }) {
+export const getServerSideProps = async ({ req, res }: IGetServerSideProps) => {
   await router.run(req, res);
 
   if (!req.user) {

@@ -1,8 +1,9 @@
 import { Button, Card, Center, Container, Text, Title } from "@mantine/core"
 import { IconBrandSteam } from "@tabler/icons";
 import router from "@utils/libs/Router";
+import { IGetServerSideProps } from "@utils/Types";
 
-const Auth = ({ user }: { user: any }) => {
+const Auth = () => {
 
   return (
     <Container mt="20vh">
@@ -17,7 +18,7 @@ const Auth = ({ user }: { user: any }) => {
 
         <Text italic align="center" size="sm" color="dimmed" mb={8}>
           Notera: du kommer att skickas till Steams officiella hemsida för att logga in.{<br />}
-          Vi hanterar ej dina inloggningsuppgifter och vi är inte affilieratde med Steam eller Valve.
+          Vi hanterar ej dina inloggningsuppgifter och vi är inte affilierad med Valve på något vis.
         </Text>
       </Card>
     </Container>
@@ -26,7 +27,7 @@ const Auth = ({ user }: { user: any }) => {
 
 export default Auth;
 
-export async function getServerSideProps({ req, res }: { req: any, res: any }) {
+export const getServerSideProps = async ({ req, res }: IGetServerSideProps) => {
   await router.run(req, res);
 
   if (req.user) {

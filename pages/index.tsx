@@ -1,17 +1,14 @@
 import { HomePage } from "@pages/HomePage";
 import { Hygraph } from "@utils/libs/Hygraph";
-import { IHomeData } from "@utils/Types";
-import router from "@utils/libs/Router";
+import { IGetServerSideProps, IHomeData } from "@utils/Types";
 
-const IndexPage = ({ pageProps, user }: { pageProps: IHomeData, user: any }) => {
-  return <HomePage pageProps={pageProps} user={user} />
+const IndexPage = ({ pageProps }: { pageProps: IHomeData }) => {
+  return <HomePage pageProps={pageProps}/>
 }
 
 export default IndexPage;
 
-export async function getServerSideProps({ req, res }: { req: any, res: any }) {
-  await router.run(req, res)
-
+export const getServerSideProps = async () => {
   const { landingPages } = await Hygraph.request(`
   {
     landingPages(last: 1) {
@@ -39,8 +36,7 @@ export async function getServerSideProps({ req, res }: { req: any, res: any }) {
 
   return {
     props: {
-      pageProps,
-      user: req.user || null
+      pageProps
     }
   }
 }

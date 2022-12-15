@@ -51,7 +51,7 @@ const useStyles = createStyles((theme) => ({
 	}
 }))
 
-const HomePage = ({ pageProps, user }: { pageProps: IHomeData, user: any }) => {
+const HomePage = ({ pageProps }: { pageProps: IHomeData }) => {
 	const { classes, theme } = useStyles();
 
 	return (

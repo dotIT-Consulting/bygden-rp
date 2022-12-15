@@ -1,6 +1,7 @@
 //@ts-nocheck
 import passport from "passport";
 import SteamStrategy from "passport-steam";
+import { ToHex } from "./ToHex";
 
 const SITE_URL = process.env.NODE_ENV === 'production' ? process.env.SITE_URL : 'http://localhost:3000/'
 
@@ -17,8 +18,14 @@ passport.use(new SteamStrategy({
   realm: SITE_URL,
   apiKey: process.env.STEAM_API_KEY
 }, (_, profile, done) => {
-	// Fetch any more information to populate
-	return done(null, profile);
+	let steam_profile = profile;
+	const hexId = ToHex(profile.id);
+
+	steam_profile['hexId'] = hexId
+	steam_profile['hexIdFormat'] = `steam:${hexId}`
+
+	console.log(steam_profile)
+	return done(null, steam_profile);
 }));
 
 export default passport;
