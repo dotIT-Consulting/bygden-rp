@@ -1,6 +1,7 @@
 import { Anchor, Badge, Card, Center, Container, createStyles, Grid, Group, Image, Paper, RingProgress, Text, Title } from "@mantine/core"
 import { IconCash, IconDeviceGamepad, IconUsers } from "@tabler/icons";
 import { useEffect } from "react";
+import useSWR from 'swr'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -26,8 +27,9 @@ const useStyles = createStyles((theme) => ({
 const Home = () => {
   const { classes } = useStyles();
 
-  let date = '2022-12-12';
+  const { data, isLoading } = useSWR('http://141.95.53.138:30120/players.json')
 
+  let date = '2022-12-12';
   useEffect(() => {
     date = new Date(Date.now()).toLocaleString()
   }, [])
@@ -42,7 +44,7 @@ const Home = () => {
                 size={80}
                 roundCaps
                 thickness={8}
-                sections={[{ value: (100 * 9) / 64, color: 'green' }]}
+                sections={[{ value: (100 * (data?.length ?? 0)) / 64, color: 'green' }]}
                 label={
                   <Center>
                     <IconUsers size={22} stroke={1.5} />
@@ -55,7 +57,7 @@ const Home = () => {
                   SPELARE ONLINE
                 </Text>
                 <Text weight={700} size="xl">
-                  9 / 64
+                  {data?.length ?? 0} / 64
                 </Text>
               </div>
             </Group>

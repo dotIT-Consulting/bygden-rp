@@ -10,6 +10,7 @@ import router from "@utils/libs/Router";
 import { useStore } from "@utils/libs/Zustand";
 import shallow from "zustand/shallow";
 import { ISteamResponse } from "@utils/Types";
+import  { SWRConfig } from 'swr'
 
 const SITE_URL = process.env.NODE_ENV === 'production' ? process.env.SITE_URL : 'http://localhost:3000/'
 
@@ -42,9 +43,15 @@ export default function App(props: AppProps & {
         withNormalizeCSS
         theme={CustomTheme}
       >
-        <PageLayout>
-          <Component {...props} />
-        </PageLayout>
+        <SWRConfig 
+          value={{
+            fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
+          }}
+        >
+          <PageLayout>
+            <Component {...props} />
+          </PageLayout>
+        </SWRConfig>
       </MantineProvider>
     </>
   );
