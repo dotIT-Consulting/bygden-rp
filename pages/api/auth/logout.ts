@@ -11,4 +11,4 @@ interface AuthLogoutResponse extends Response {
 const path = "/api/auth/logout";
 
 export default router
-    .get(path, (req: AuthLogoutRequest, res: AuthLogoutResponse) => { req.logout(); res.redirect("/") });
+    .get(path, (req: AuthLogoutRequest, res: AuthLogoutResponse) => { req.logout(); res.redirect("/auth") });

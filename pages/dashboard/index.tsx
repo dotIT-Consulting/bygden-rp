@@ -1,13 +1,9 @@
-import { AppShell } from "@mantine/core"
 import router from "@utils/libs/Router";
 import { IGetServerSideProps } from "@utils/Types";
 
-const Index = ({ user }: { user: any }) => {
-
+const Index = () => {
   return (
-    <AppShell>
-
-    </AppShell>
+    <p>Loading...</p>
   )
 }
 
@@ -29,6 +25,10 @@ export const getServerSideProps = async ({ req, res }: IGetServerSideProps) => {
   }
 
   return {
+    redirect: {
+      permanent: true,
+      destination: "/dashboard/home"
+    },
     props: {
       user: req.user || null
     }

@@ -43,7 +43,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const Navbar = ({ data }: { data: INavData }) => {
+const Navbar = (props: INavData) => {
   const { classes } = useStyles();
 
   return (
@@ -51,15 +51,15 @@ const Navbar = ({ data }: { data: INavData }) => {
       <Container className={classes.inner}>
         <Link href="/" rel="canonical" className={classes.link}>
           <Group>
-            {data.logoImage?.url ? (
-              <Image src={data.logoImage.url} height={48} width={24} alt="Website logo" />
+            {props.logoImage?.url ? (
+              <Image src={props.logoImage.url} height={48} width={24} alt="Website logo" />
             ) : undefined}
-            <Text weight={700} size="xl">{data.title}</Text>
+            <Text weight={700} size="xl">{props.title}</Text>
           </Group>
         </Link>
 
         <Group spacing={8} className={classes.social} position="right" noWrap>
-          {data?.buttonLinks.map((buttons: ILinkButton) => {
+          {props?.buttonLinks.map((buttons: ILinkButton) => {
             const variant = buttons.buttonStyle?.toLowerCase() as typeof buttons.buttonStyle;
             return (
               <Button

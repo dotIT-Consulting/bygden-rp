@@ -2,13 +2,19 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { Layout } from "@pages/Layout";
-import { Hygraph } from "@utils/libs/Hygraph";
 import { CustomTheme } from "@utils/CustomTheme";
+import { NextRouter, useRouter } from "next/router";
+import { Fragment } from "react";
+import { DashboardLayout } from "@pages/DashboardLayout";
+import router from "@utils/libs/Router";
+
+const SITE_URL = process.env.NODE_ENV === 'production' ? process.env.SITE_URL : 'http://localhost:3000/'
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-  //@ts-ignore
-  const navData = props.extra.navbar;
+  const router = useRouter();
+
+  const PageLayout = GetLayout(router);
 
   return (
     <>
@@ -21,39 +27,43 @@ export default function App(props: AppProps) {
         withNormalizeCSS
         theme={CustomTheme}
       >
-        <Layout navData={navData}>
+        <PageLayout>
           <Component {...pageProps} />
-        </Layout>
+        </PageLayout>
       </MantineProvider>
     </>
   );
 }
 
-App.getInitialProps = async () => {
-  const { navbars } = await Hygraph.request(`
-    {
-      navbars(last: 1) {
-        logoImage {
-          url
-        }
-        title
-        buttonLinks {
-          ... on ButtonLink {
-            label
-            linkUrl
-            buttonIcon
-            buttonStyle
-          }
-        }
-      }
-    }
-  `)
+const GetLayout = (path: NextRouter) => {
+  const { pathname } = path;
 
-  const navbar = navbars.pop();
+  if (pathname.startsWith('/dashboard')) {
+    return DashboardLayout
+  }
+
+  if (pathname.startsWith('/')) {
+    return Layout
+  }
+
+  return Fragment
+}
+
+App.getInitialProps = async (initial: any) => {
+  const { ctx } = initial;
+
+  if (ctx.pathname.startsWith('/dashboard') || ctx.pathname.startsWith('/auth')) {
+    await router.run(ctx.req, ctx.res);
+  }
+
+  if (!ctx.req.user && ctx.pathname.startsWith('/dashboard')) {
+    ctx.res.writeHead(301, { Location:`${SITE_URL}auth` });
+    ctx.res.end();
+  }
 
   return {
-    extra: {
-      navbar
+    steam: {
+      user: ctx.req.user || null
     },
     revalidate: 60
   }

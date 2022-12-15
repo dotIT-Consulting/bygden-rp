@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Navbar } from '@organisms/Navbar';
 import type { ILayoutProps } from '@utils/Types';
-import { DashboardLayout } from './DashboardLayout';
+import { AppShell } from '@mantine/core';
+import { DashboardNavbar } from '@organisms/DashboardNavbar';
 
-const Layout = ({ children, meta: pageMeta }: ILayoutProps) => {
+const DashboardLayout = ({ children, meta: pageMeta }: ILayoutProps) => {
   const router = useRouter();
 
   const meta = {
@@ -28,11 +28,13 @@ const Layout = ({ children, meta: pageMeta }: ILayoutProps) => {
         <meta property="og:title" content={meta.title} />
         <meta property="og:image" content={meta.cardImage} />
       </Head>
-      <main id="skip">{children}</main>
+      <AppShell navbar={<DashboardNavbar />}>
+          {children}
+      </AppShell>
     </>
   );
 }
 
 export {
-  Layout
+  DashboardLayout
 }

@@ -4,7 +4,6 @@ import router from "@utils/libs/Router";
 import { IGetServerSideProps } from "@utils/Types";
 
 const Auth = () => {
-
   return (
     <Container mt="20vh">
       <Card>

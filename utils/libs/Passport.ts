@@ -24,7 +24,6 @@ passport.use(new SteamStrategy({
 	steam_profile['hexId'] = hexId
 	steam_profile['hexIdFormat'] = `steam:${hexId}`
 
-	console.log(steam_profile)
 	return done(null, steam_profile);
 }));
 

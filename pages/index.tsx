@@ -1,15 +1,15 @@
 import { HomePage } from "@pages/HomePage";
 import { Hygraph } from "@utils/libs/Hygraph";
-import { IGetServerSideProps, IHomeData } from "@utils/Types";
+import { IHomeData } from "@utils/Types";
 
-const IndexPage = ({ pageProps }: { pageProps: IHomeData }) => {
-  return <HomePage pageProps={pageProps}/>
+const IndexPage = ({ pageProps, navbar }: { pageProps: IHomeData, navbar: any }) => {
+  return <HomePage pageProps={pageProps} navbar={navbar}/>
 }
 
 export default IndexPage;
 
 export const getServerSideProps = async () => {
-  const { landingPages } = await Hygraph.request(`
+  const { landingPages, navbars } = await Hygraph.request(`
   {
     landingPages(last: 1) {
       logoImage {
@@ -29,14 +29,31 @@ export const getServerSideProps = async () => {
         }
       }
     }
+
+    navbars(last: 1) {
+      logoImage {
+        url
+      }
+      title
+      buttonLinks {
+        ... on ButtonLink {
+          label
+          linkUrl
+          buttonIcon
+          buttonStyle
+        }
+      }
+    }
   }
   `)
 
+  const navbar = navbars.pop();
   const pageProps = landingPages.pop();
 
   return {
     props: {
-      pageProps
+      pageProps,
+      navbar
     }
   }
 }

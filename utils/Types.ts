@@ -11,7 +11,6 @@ interface IPageMeta {
 interface ILayoutProps {
   children: ReactNode;
   meta?: IPageMeta;
-  navData: INavData;
 }
 
 interface ILinkButton {
@@ -85,5 +84,6 @@ export type {
   INavData,
   ITablerIcons,
   IHomeData,
+  ISteamResponse,
   IGetServerSideProps
 }

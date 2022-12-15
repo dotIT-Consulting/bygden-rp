@@ -1,4 +1,5 @@
 import { ActionIcon, Button, Center, Container, createStyles, Grid, Group, Text, Title } from "@mantine/core"
+import { Navbar } from "@organisms/Navbar";
 import { IconChevronDown } from "@tabler/icons";
 import { Icons } from "@utils/Icons";
 import { ToHex } from "@utils/libs/ToHex";
@@ -51,86 +52,91 @@ const useStyles = createStyles((theme) => ({
 	}
 }))
 
-const HomePage = ({ pageProps }: { pageProps: IHomeData }) => {
+const HomePage = ({ pageProps, navbar }: { pageProps: IHomeData, navbar: any }) => {
 	const { classes, theme } = useStyles();
 
 	return (
-		<section>
-			<Container fluid className={classes.videoContainer}>
-				<Center>
-					<video
-						muted
-						disablePictureInPicture
-						autoPlay
-						loop
-						className={classes.videoPlayer}
-					>
-						<source src={pageProps.backgroundVideo.url} type="video/webm" />
-					</video>
-				</Center>
-			</Container>
+		<>
+			<nav>
+				<Navbar {...navbar} />
+			</nav>
+			<section>
+				<Container fluid className={classes.videoContainer}>
+					<Center>
+						<video
+							muted
+							disablePictureInPicture
+							autoPlay
+							loop
+							className={classes.videoPlayer}
+						>
+							<source src={pageProps.backgroundVideo.url} type="video/webm" />
+						</video>
+					</Center>
+				</Container>
 
-			<Container className={classes.mainArea} mt={48}>
-				{pageProps?.logoImage?.url ? (
-					<div className={classes.logoImage}>
-						<Image
-							layout='fill'
-							objectFit='contain'
-							src={pageProps?.logoImage?.url}
-							alt='Website logo'
-							priority
-						/>
+				<Container className={classes.mainArea} mt={48}>
+					{pageProps?.logoImage?.url ? (
+						<div className={classes.logoImage}>
+							<Image
+								layout='fill'
+								objectFit='contain'
+								src={pageProps?.logoImage?.url}
+								alt='Website logo'
+								priority
+							/>
+						</div>
+					) : undefined}
+					
+					<Title align="center" order={1} className={classes.textShadowing}>
+						{pageProps.title ?? undefined}
+					</Title>
+
+					<Text size="lg" align="center" className={classes.textShadowing}>
+						{pageProps.subtitle ?? undefined}
+					</Text>
+
+					{pageProps.buttonLinks ? (
+						<Grid mt={16} grow>
+							{pageProps.buttonLinks.map((button: ILinkButton) => {
+								const variant = button.buttonStyle?.toLowerCase() as typeof button.buttonStyle;
+								return (
+									<Grid.Col span={6} key={button.label}>
+										<Button
+											component='a'
+											variant={variant}
+											href={button.linkUrl}
+											leftIcon={<Icons type={button.buttonIcon} />}
+											fullWidth
+										>
+											{button.label}
+										</Button>
+									</Grid.Col>
+								)
+							})}
+						</Grid>
+					): undefined}
+
+					<div style={{ margin: '0 auto' }}>
+						<ActionIcon
+							mt={16}
+							variant="transparent"
+							component="a"
+							href="#"
+							size={theme.spacing.xl * 2}
+							sx={{ 
+								color: 'white',
+								'& :hover': {
+									color: 'black'
+								}
+							}}
+						>
+							<IconChevronDown size={64} />
+						</ActionIcon>
 					</div>
-				) : undefined}
-				
-				<Title align="center" order={1} className={classes.textShadowing}>
-					{pageProps.title ?? undefined}
-				</Title>
-
-				<Text size="lg" align="center" className={classes.textShadowing}>
-					{pageProps.subtitle ?? undefined}
-				</Text>
-
-				{pageProps.buttonLinks ? (
-					<Grid mt={16} grow>
-						{pageProps.buttonLinks.map((button: ILinkButton) => {
-							const variant = button.buttonStyle?.toLowerCase() as typeof button.buttonStyle;
-							return (
-								<Grid.Col span={6} key={button.label}>
-									<Button
-										component='a'
-										variant={variant}
-										href={button.linkUrl}
-										leftIcon={<Icons type={button.buttonIcon} />}
-										fullWidth
-									>
-										{button.label}
-									</Button>
-								</Grid.Col>
-							)
-						})}
-					</Grid>
-				): undefined}
-
-				<div style={{ margin: '0 auto' }}>
-					<ActionIcon
-						mt={16}
-						variant="transparent"
-						component="a"
-						href="#"
-						size={theme.spacing.xl * 2}
-						sx={{ 
-							color: 'white',
-							'& :hover': {
-								color: 'black'
-							}
-						}}
-					>
-						<IconChevronDown size={64} />
-					</ActionIcon>
-				</div>
-			</Container>
-		</section>
+				</Container>
+			</section>
+		</>
 	)
 }
 
