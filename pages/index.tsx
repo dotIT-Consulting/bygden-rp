@@ -2,8 +2,8 @@ import { HomePage } from "@pages/HomePage";
 import { Hygraph } from "@utils/libs/Hygraph";
 import { IHomeData } from "@utils/Types";
 
-const IndexPage = ({ pageProps, navbar }: { pageProps: IHomeData, navbar: any }) => {
-  return <HomePage pageProps={pageProps} navbar={navbar}/>
+const IndexPage = ({ pageProps }: { pageProps: IHomeData }) => {
+  return <HomePage {...pageProps}/>
 }
 
 export default IndexPage;
@@ -48,11 +48,11 @@ export const getServerSideProps = async () => {
   `)
 
   const navbar = navbars.pop();
-  const pageProps = landingPages.pop();
+  const home = landingPages.pop();
 
   return {
     props: {
-      pageProps,
+      home,
       navbar
     }
   }

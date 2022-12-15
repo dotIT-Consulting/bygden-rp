@@ -52,13 +52,13 @@ const useStyles = createStyles((theme) => ({
 	}
 }))
 
-const HomePage = ({ pageProps, navbar }: { pageProps: IHomeData, navbar: any }) => {
+const HomePage = (props: any) => {
 	const { classes, theme } = useStyles();
 
 	return (
 		<>
 			<nav>
-				<Navbar {...navbar} />
+				<Navbar {...props.navbar} />
 			</nav>
 			<section>
 				<Container fluid className={classes.videoContainer}>
@@ -70,18 +70,18 @@ const HomePage = ({ pageProps, navbar }: { pageProps: IHomeData, navbar: any }) 
 							loop
 							className={classes.videoPlayer}
 						>
-							<source src={pageProps.backgroundVideo.url} type="video/webm" />
+							<source src={props.home?.backgroundVideo?.url} type="video/webm" />
 						</video>
 					</Center>
 				</Container>
 
 				<Container className={classes.mainArea} mt={48}>
-					{pageProps?.logoImage?.url ? (
+					{props.home?.logoImage?.url ? (
 						<div className={classes.logoImage}>
 							<Image
 								layout='fill'
 								objectFit='contain'
-								src={pageProps?.logoImage?.url}
+								src={props.home?.logoImage?.url}
 								alt='Website logo'
 								priority
 							/>
@@ -89,16 +89,16 @@ const HomePage = ({ pageProps, navbar }: { pageProps: IHomeData, navbar: any }) 
 					) : undefined}
 					
 					<Title align="center" order={1} className={classes.textShadowing}>
-						{pageProps.title ?? undefined}
+						{props.home.title ?? undefined}
 					</Title>
 
 					<Text size="lg" align="center" className={classes.textShadowing}>
-						{pageProps.subtitle ?? undefined}
+						{props.home.subtitle ?? undefined}
 					</Text>
 
-					{pageProps.buttonLinks ? (
+					{props.home.buttonLinks ? (
 						<Grid mt={16} grow>
-							{pageProps.buttonLinks.map((button: ILinkButton) => {
+							{props.home?.buttonLinks?.map((button: ILinkButton) => {
 								const variant = button.buttonStyle?.toLowerCase() as typeof button.buttonStyle;
 								return (
 									<Grid.Col span={6} key={button.label}>

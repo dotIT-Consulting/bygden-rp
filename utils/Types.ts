@@ -29,15 +29,18 @@ interface INavData {
 }
 
 interface IHomeData {
-  logoImage?: {
-    url: string
-  },
-  backgroundVideo: {
-    url: string;
-  },
-  title: string;
-  subtitle: string;
-  buttonLinks: ILinkButton[]
+  home: {
+    logoImage?: {
+      url: string
+    },
+    backgroundVideo: {
+      url: string;
+    },
+    title: string;
+    subtitle: string;
+    buttonLinks: ILinkButton[]
+  }
+  navbar: INavData
 }
 
 type ITablerIcons = TablerIconProps & {
