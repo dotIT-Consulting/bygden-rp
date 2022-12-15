@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
 const Home = () => {
   const { classes } = useStyles();
 
-  const { data, isLoading } = useSWR('http://141.95.53.138:30120/players.json')
+  const { data, isLoading } = useSWR('https://141.95.53.138:30120/players.json')
 
   let date = '2022-12-12';
   useEffect(() => {
