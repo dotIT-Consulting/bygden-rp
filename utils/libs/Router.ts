@@ -6,7 +6,7 @@ import session from "cookie-session";
 const router = nextConnect<NextApiRequest, NextApiResponse>();
 
 router.use(session({
-    secret: 'SOME_RANDOM_SECRET_KEY',
+    secret: process.env.SECRET_SESSION_KEY,
     maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
 }));
 
