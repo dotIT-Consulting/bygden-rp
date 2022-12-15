@@ -72,7 +72,7 @@ const DashboardNavbar = () => {
       <Navbar.Section className={classes.header}>
         <Group position="left">
           <Avatar radius="md" size="md" src={steamProfile?.photos[2].value} />
-          <Text className={classes.playerLabel}>Välkommen {steamProfile?.displayName}</Text>
+          <Text className={classes.playerLabel}>Välkommen {steamProfile?.displayName}!</Text>
         </Group>
       </Navbar.Section>
 

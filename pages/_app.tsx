@@ -7,14 +7,29 @@ import { NextRouter, useRouter } from "next/router";
 import { Fragment } from "react";
 import { DashboardLayout } from "@pages/DashboardLayout";
 import router from "@utils/libs/Router";
+import { useStore } from "@utils/libs/Zustand";
+import shallow from "zustand/shallow";
+import { ISteamResponse } from "@utils/Types";
 
 const SITE_URL = process.env.NODE_ENV === 'production' ? process.env.SITE_URL : 'http://localhost:3000/'
 
-export default function App(props: AppProps) {
-  const { Component, pageProps } = props;
-  const router = useRouter();
+export default function App(props: AppProps & {
+  steam: {
+    user: ISteamResponse
+  }
+}) {
+  const { setSteamProfile } = useStore(
+    (state) => ({ setSteamProfile: state.setSteamProfile }),
+    shallow,
+  );
 
+  const { Component } = props;
+  const router = useRouter();
   const PageLayout = GetLayout(router);
+
+  if (props.steam !== null) {
+    setSteamProfile(props.steam.user)
+  }
 
   return (
     <>
@@ -28,7 +43,7 @@ export default function App(props: AppProps) {
         theme={CustomTheme}
       >
         <PageLayout>
-          <Component {...pageProps} />
+          <Component {...props} />
         </PageLayout>
       </MantineProvider>
     </>
