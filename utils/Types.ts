@@ -73,6 +73,12 @@ interface ISteamResponse {
   hex_id_format: string | undefined
 }
 
+interface ISteamProps {
+  steam: {
+    user: ISteamResponse
+  }
+}
+
 interface IGetServerSideProps {
   req: NextApiRequest & {
     user: ISteamResponse
@@ -88,5 +94,6 @@ export type {
   ITablerIcons,
   IHomeData,
   ISteamResponse,
-  IGetServerSideProps
+  IGetServerSideProps,
+  ISteamProps
 }

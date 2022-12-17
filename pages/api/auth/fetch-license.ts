@@ -1,5 +1,5 @@
 import { prisma } from "@utils/libs/Prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { steam } = req.query;
@@ -10,25 +10,31 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const characters = await prisma.players.count({
+		const data = await prisma.players.findFirst({
       where: {
         license: 'license:deb5e58da906e04eccfb22cf255e6d4ab58c5b42'
-      }
+      },
+			select: {
+				license: true
+			}
     })
 
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59');
+		const unformated = data?.license.replace('license:', '')
+		
     return res.status(200).json({
-      number: characters
-    });
-  } catch (error) {
-    console.log(error)
-  } finally {
-    await prisma.$disconnect();
-  }
+      formated: data?.license ?? null,
+      unformated: unformated ?? null
+    })
+	} catch(error) {
+		console.log(error)
+	} finally {
+		await prisma.$disconnect();
+	}
 
   return res.status(500).json({
-    error: 'Failed to fetch characters'
-  });
+    success: false,
+    message: "Failed to fetch FiveM license."
+  })
 }
 
 export default handler;

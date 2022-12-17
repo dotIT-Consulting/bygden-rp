@@ -1,11 +1,13 @@
-import { Anchor, Badge, Card, Center, Container, createStyles, Grid, Group, Image, Paper, RingProgress, Text, Title } from "@mantine/core"
+import { DashRing } from "@atoms/DashRing";
+import { Badge, Card, Container, createStyles, Grid, Group, Image, Paper, Text, Title } from "@mantine/core"
 import { IconCash, IconDeviceGamepad, IconUsers } from "@tabler/icons";
-import { useEffect } from "react";
+import { ISteamProps } from "@utils/Types";
+import { useEffect, useState } from "react";
 import useSWR from 'swr'
 
 const useStyles = createStyles((theme) => ({
   card: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    backgroundColor: theme.colors.dark[7],
   },
 
   title: {
@@ -14,26 +16,22 @@ const useStyles = createStyles((theme) => ({
     lineClamp: 1,
     textOverflow: 'ellapsis',
   },
-
-  footer: {
-    padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
-    marginTop: theme.spacing.md,
-    borderTop: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
-    }`,
-  },
 }));
 
-const Home = () => {
+const Home = (props: ISteamProps) => {
+  const { user: steam } = props.steam;
   const { classes } = useStyles();
 
-  const { data, isLoading } = useSWR('/api/bygden/server-info', {
+  const [date, setDate] = useState('1970-01-01');
+
+  const { data: Characters = 0 } = useSWR(`/api/bygden/player-info?steam=${steam.hex_id_format}`)
+  const { data: Economy = 0} = useSWR('/api/bygden/server-economy')
+  const { data: OnlinePlayers = 0 } = useSWR('/api/bygden/server-info', {
     refreshInterval: 10 * 1000
   })
 
-  let date = '2022-12-12';
   useEffect(() => {
-    date = new Date(Date.now()).toLocaleString()
+    setDate(new Date(Date.now()).toLocaleString());
   }, [])
 
   return (
@@ -42,26 +40,13 @@ const Home = () => {
         <Grid.Col span={4}>
           <Paper withBorder radius="md" p="xs">
             <Group>
-              <RingProgress
-                size={80}
-                roundCaps
-                thickness={8}
-                sections={[{ value: (100 * (data?.length ?? 0)) / 64, color: 'green' }]}
-                label={
-                  <Center>
-                    <IconUsers size={22} stroke={1.5} />
-                  </Center>
-                }
+              <DashRing
+                title="SPELARE ONLINE"
+                subtitle={`${OnlinePlayers?.length ?? 0} / 64`}
+                value={OnlinePlayers?.length ?? 0}
+                maxValue={64}
+                icon={<IconUsers size={22} stroke={1.5} />}
               />
-
-              <div>
-                <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-                  SPELARE ONLINE
-                </Text>
-                <Text weight={700} size="xl">
-                  {data?.length ?? 0} / 64
-                </Text>
-              </div>
             </Group>
           </Paper>
         </Grid.Col>
@@ -69,26 +54,13 @@ const Home = () => {
         <Grid.Col span={4}>
           <Paper withBorder radius="md" p="xs">
             <Group>
-              <RingProgress
-                size={80}
-                roundCaps
-                thickness={8}
-                sections={[{ value: (100 * 2) / 3, color: 'orange' }]}
-                label={
-                  <Center>
-                    <IconDeviceGamepad size={22} stroke={1.5} />
-                  </Center>
-                }
+              <DashRing
+                title="ANTAL KARAKTÄRER"
+                subtitle={`${Characters?.number ?? 0} / 3`}
+                icon={<IconDeviceGamepad size={22} stroke={1.5} />}
+                value={Characters?.number ?? 0}
+                maxValue={3}
               />
-
-              <div>
-                <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-                  ANTAL KARAKTÄRER
-                </Text>
-                <Text weight={700} size="xl">
-                  2 / 3
-                </Text>
-              </div>
             </Group>
           </Paper>
         </Grid.Col>
@@ -96,29 +68,14 @@ const Home = () => {
         <Grid.Col span={4}>
           <Paper withBorder radius="md" p="xs">
             <Group>
-              <RingProgress
-                size={80}
-                roundCaps
-                thickness={8}
-                sections={[{ value: 100, color: 'green' }]}
-                label={
-                  <Center>
-                    <IconCash size={22} stroke={1.5} />
-                  </Center>
+              <DashRing
+                title="TOTAL EKONOMI"
+                subtitle={Economy.total}
+                color="green"
+                icon={
+                  <IconCash size={22} stroke={1.5} />
                 }
               />
-
-              <div>
-                <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-                  TOTAL EKONOMI
-                </Text>
-                <Text weight={700} size="xl">
-                  {Number(737899504).toLocaleString('sv-SE', {
-                    style: 'currency',
-                    currency: 'SEK'
-                  })}
-                </Text>
-              </div>
             </Group>
           </Paper>
         </Grid.Col>
