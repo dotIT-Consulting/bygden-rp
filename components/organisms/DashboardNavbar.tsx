@@ -88,8 +88,6 @@ const DashboardNavbar = () => {
     return element.admin === true
   });
 
-
-
   const links = linkArray.map((item) => (
     <React.Fragment key={item.label}>
       {((adminIndex?.label === item.label) && steamProfile?.isAdmin) ? (
