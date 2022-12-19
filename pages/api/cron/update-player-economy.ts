@@ -4,7 +4,7 @@ import { prisma } from '@utils/libs/Prisma';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {
-    res.setHeader('Allow', 'POST');
+    res.setHeader('Allow', 'GET');
     return res.status(405).end('Method Not Allowed');
   }
 
