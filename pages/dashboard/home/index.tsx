@@ -159,9 +159,7 @@ const Home = (props: ISteamProps) => {
 									borderRadius: 5,
 								}}
 								labelStyle={{ color: "white" }}
-								labelFormatter={(value) => [
-									`Klockan ${value}`
-								]}
+								labelFormatter={(value) => [`Klockan ${value}`]}
 							/>
 							<Line
 								type="monotone"

@@ -36,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       players: online ?? [],
       characters: characters ?? 0,
       economy: economy?.money ?? 0,
-      max_slots: info.vars.sv_maxClients ?? 0
+      max_slots: Number(info.vars.sv_maxClients) ?? 0
     });
   } catch (error) {
     console.log(error)
