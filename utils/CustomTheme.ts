@@ -60,7 +60,8 @@ const CustomTheme = {
   colorScheme: 'dark',
   globalStyles: () => ({
     body: {
-      backgroundColor: 'black'
+      backgroundColor: 'black',
+      overflow: 'hidden'
     }
   }),
   components: {
