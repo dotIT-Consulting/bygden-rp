@@ -57,7 +57,7 @@ const useStyles = createStyles((theme) => ({
     borderTop: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
-    paddingBlock: 16
+    paddingTop: 16
   },
 
   playerLabel: {
@@ -93,7 +93,7 @@ const DashboardNavbar = () => {
   const links = linkArray.map((item) => (
     <React.Fragment key={item.label}>
       {((adminIndex?.label === item.label) && steamProfile?.isAdmin) ? (
-        <Divider label="Staff" labelPosition='center'/>
+        <Divider label="Staff" labelPosition='center' />
       ) : ( undefined )}
       {<LinksGroup {...item} key={item.label} />}
     </React.Fragment>
