@@ -9,7 +9,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    
+    const raw = await fetch(`http://${process.env.FIVEM_SERVER_IP}/players.json`)
+    const online = await raw.json();
+
+    await prisma.stats_players_online.create({
+      data: {
+        online: online.length ?? 0
+      }
+    })
 
     return res.status(200).json({ success: true });
   } catch (error) {
@@ -23,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 }
 
-export default /*verifySignature(handler) */ handler;
+export default verifySignature(handler);
 
 export const config = {
   api: {
