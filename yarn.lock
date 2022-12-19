@@ -216,6 +216,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@deno/shim-crypto@~0.3.0":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@deno/shim-crypto/-/shim-crypto-0.3.1.tgz#416155b2b6f9ad728f80ebcb422c803efc1023c2"
+  integrity sha512-ed4pNnfur6UbASEgF34gVxR9p7Mc3qF+Ygbmjiil8ws5IhNFhPDFy5vE5hQAUA9JmVsSxXPcVLM5Rf8LOZqQ5Q==
+
 "@edge-runtime/format@1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@edge-runtime/format/-/format-1.1.0.tgz"
@@ -1169,6 +1174,13 @@
   dependencies:
     "@typescript-eslint/types" "5.46.1"
     eslint-visitor-keys "^3.3.0"
+
+"@upstash/qstash@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@upstash/qstash/-/qstash-0.3.2.tgz#0b440a3d6bc87e9391dae13c30fd2eb141e5e18b"
+  integrity sha512-R5mKygCpGFwihsST18I/if3TxYkgumKKs6cfB7JAc1FGBDLSxSycAX5HTWcuFjhL/HFO+hRkI7U9f6BHHrUkWA==
+  dependencies:
+    "@deno/shim-crypto" "~0.3.0"
 
 "@vercel/build-utils@5.7.0":
   version "5.7.0"

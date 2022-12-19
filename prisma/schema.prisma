@@ -96,6 +96,10 @@ model boost_contract {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model cardealer_stock {
   vehicle String? @db.VarChar(255)
   price   Int?    @default(0)
@@ -104,6 +108,10 @@ model cardealer_stock {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model codem_hud_data {
   identifier String? @unique(map: "identifier") @db.VarChar(65)
@@ -139,6 +147,10 @@ model dealers {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model dpkeybinds {
   id       String? @db.VarChar(50)
   keybind1 String? @default("num4") @db.VarChar(50)
@@ -157,6 +169,10 @@ model dpkeybinds {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model elite_cases {
   citizenid  String? @db.VarChar(50)
@@ -354,6 +370,10 @@ model mdt_convictions {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model mdt_data {
   id          Int     @default(autoincrement())
   cid         String? @db.VarChar(20)
@@ -439,6 +459,10 @@ model occasion_vehicles {
   @@index([occasionid], map: "occasionId")
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model okokbanking_societies {
   society        String? @db.VarChar(255)
@@ -585,7 +609,7 @@ model phone_mail_accounts {
 model phone_mail_loggedin {
   address             String              @db.VarChar(100)
   phone_number        String              @db.VarChar(15)
-  phone_mail_accounts phone_mail_accounts @relation(fields: [address], references: [address], onDelete: Cascade, onUpdate: NoAction, map: "phone_mail_loggedin_ibfk_1")
+  phone_mail_accounts phone_mail_accounts @relation(fields: [address], references: [address], onDelete: Cascade, onUpdate: Restrict, map: "phone_mail_loggedin_ibfk_1")
 
   @@id([address, phone_number])
 }
@@ -656,7 +680,7 @@ model phone_music_playlists {
 model phone_music_saved_playlists {
   playlist_id           String                @db.VarChar(50)
   phone_number          String                @db.VarChar(15)
-  phone_music_playlists phone_music_playlists @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "phone_music_saved_playlists_ibfk_1")
+  phone_music_playlists phone_music_playlists @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_music_saved_playlists_ibfk_1")
 
   @@id([playlist_id, phone_number])
 }
@@ -664,7 +688,7 @@ model phone_music_saved_playlists {
 model phone_music_songs {
   song_id               String                @db.VarChar(100)
   playlist_id           String                @db.VarChar(50)
-  phone_music_playlists phone_music_playlists @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "phone_music_songs_ibfk_1")
+  phone_music_playlists phone_music_playlists @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_music_songs_ibfk_1")
 
   @@id([song_id, playlist_id])
   @@index([playlist_id], map: "playlist_id")
@@ -757,7 +781,7 @@ model phone_services_messages {
   x_pos                   Int?
   y_pos                   Int?
   timestamp               DateTime                @default(now()) @db.Timestamp(0)
-  phone_services_channels phone_services_channels @relation(fields: [channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "phone_services_messages_ibfk_1")
+  phone_services_channels phone_services_channels @relation(fields: [channel_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_services_messages_ibfk_1")
 
   @@index([channel_id], map: "channel_id")
 }
@@ -1101,6 +1125,21 @@ model vehicle_parts {
   plate   String @db.VarChar(100)
   parts   String @db.LongText
   mileage Float  @default(0) @db.Float
+}
+
+model stats_player_money {
+  citizenid String    @id @db.VarChar(50)
+  money     Int       @default(0)
+  date      DateTime? @default(now()) @db.Date
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model stats_server_money {
+  id    Int      @id @default(autoincrement())
+  money Int
+  date  DateTime @default(now()) @db.Date
+
+  @@ignore
 }
 
 enum management_funds_type {
