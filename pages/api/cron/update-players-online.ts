@@ -9,29 +9,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const data = await prisma.players.findMany({
-      select: {
-        money: true
-      }
-    })
-
-    let serverEconomy = 0;
     
-    for (const index in data) {
-      const { money } = data[index]
-      const { bank, cash } = JSON.parse(money)
-      serverEconomy += (bank + cash)
-    }
 
-    await prisma.stats_server_money.create({
-      data: {
-        money: serverEconomy
-      }
-    })
-
-    return res.status(200).json({
-      success: true
-    });
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.log(error)
   } finally {
@@ -39,11 +19,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   return res.status(500).json({
-    error: 'Failed to update server economy stats'
+    error: 'Failed to update players online stats'
   });
 }
 
-export default verifySignature(handler);
+export default /*verifySignature(handler) */ handler;
 
 export const config = {
   api: {

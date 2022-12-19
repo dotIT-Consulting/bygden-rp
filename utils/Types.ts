@@ -70,7 +70,9 @@ interface ISteamResponse {
   displayName: string,
   photos: any[],
   hex_id: string | undefined,
-  hex_id_format: string | undefined
+  hex_id_format: string | undefined,
+  fivemLicense: string | undefined,
+  fivemLicenseFormat: string | undefined
 }
 
 interface ISteamProps {
@@ -86,6 +88,14 @@ interface IGetServerSideProps {
   res: NextApiResponse
 }
 
+interface IServerListPlayer {
+  endpoint: string,
+  id: number,
+  identifiers: string[],
+  name: string,
+  ping: number
+}
+
 export type {
   IPageMeta,
   ILayoutProps,
@@ -95,5 +105,6 @@ export type {
   IHomeData,
   ISteamResponse,
   IGetServerSideProps,
-  ISteamProps
+  ISteamProps,
+  IServerListPlayer
 }

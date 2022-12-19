@@ -16,19 +16,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-
     const playerData = [];
-
     for (const index in data) {
-      let playerMoney = 0;
-
       const { money, citizenid } = data[index];
       const { bank, cash } = JSON.parse(money);
-      playerMoney += bank + cash
 
       playerData.push({
         citizenid: citizenid,
-        money: playerMoney,
+        money: (bank + cash),
         cash: cash,
         bank: bank
       })
@@ -51,7 +46,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 }
 
-export default /*verifySignature(handler)*/  handler;
+export default verifySignature(handler);
 
 export const config = {
   api: {
