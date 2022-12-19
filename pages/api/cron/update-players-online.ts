@@ -3,8 +3,8 @@ import { verifySignature } from '@upstash/qstash/nextjs';
 import { prisma } from '@utils/libs/Prisma';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', 'GET');
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
     return res.status(405).end('Method Not Allowed');
   }
 
