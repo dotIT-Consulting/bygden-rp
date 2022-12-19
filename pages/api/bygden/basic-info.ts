@@ -10,8 +10,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const raw = await fetch(`http://${process.env.FIVEM_SERVER_IP}/players.json`)
-    const online = await raw.json();
+    const rawPlayers = await fetch(`http://${process.env.FIVEM_SERVER_IP}/players.json`)
+    const online = await rawPlayers.json();
+
+    const rawInfo = await fetch(`http://${process.env.FIVEM_SERVER_IP}/info.json`)
+    const info = await rawInfo.json();
 
     const characters = await prisma.players.count({
       where: {
@@ -30,12 +33,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).send({
       online: online.length ?? 0,
-      players: online,
+      players: online ?? [],
       characters: characters ?? 0,
       economy: economy?.money ?? 0,
+      max_slots: info.vars.sv_maxClients ?? 0
     });
   } catch (error) {
     console.log(error)
+  } finally {
+    await prisma.$disconnect();
   }
 
   return res.status(500).json({

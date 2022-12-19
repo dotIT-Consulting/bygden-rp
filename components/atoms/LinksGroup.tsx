@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core';
+import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles, Divider } from '@mantine/core';
 import { TablerIcon, IconCalendarStats, IconChevronLeft, IconChevronRight } from '@tabler/icons';
+import { useRouter } from 'next/router';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -8,12 +9,11 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     width: '100%',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+    color: theme.colors.dark[0],
     fontSize: theme.fontSizes.sm,
-
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+      backgroundColor: theme.colors.dark[6],
+      color: theme.white,
     },
   },
 
@@ -39,6 +39,12 @@ const useStyles = createStyles((theme) => ({
   chevron: {
     transition: 'transform 200ms ease',
   },
+
+  linkActive: {
+    '&': {
+      backgroundColor: theme.colors.dark[6],
+    },
+  },
 }));
 
 interface LinksGroupProps {
@@ -46,10 +52,15 @@ interface LinksGroupProps {
   label: string;
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
+  admin?: boolean | undefined;
+  link?: string | undefined;
 }
 
-const LinksGroup = ({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) => {
-  const { classes, theme } = useStyles();
+const LinksGroup = ({ icon: Icon, label, initiallyOpened, links, admin, link }: LinksGroupProps) => {
+  const router = useRouter();
+
+
+  const { classes, theme, cx } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
@@ -67,7 +78,7 @@ const LinksGroup = ({ icon: Icon, label, initiallyOpened, links }: LinksGroupPro
 
   return (
     <>
-      <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+      <UnstyledButton onClick={() => setOpened((o) => !o)} href={`.${link}`} component={'a'} className={cx(classes.control, { [classes.linkActive]: router.pathname.includes(link ?? '') })}>
         <Group position="apart" spacing={0}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon variant="light" size={30}>

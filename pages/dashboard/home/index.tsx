@@ -1,4 +1,3 @@
-import { DashRing } from "@atoms/DashRing";
 import {
 	Code,
 	Container,
@@ -6,13 +5,13 @@ import {
 	Group,
 	Paper,
 	ScrollArea,
+	Select,
 	Table,
 	Title,
 	useMantineTheme,
 } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
 import { BlogSection } from "@molecules/BlogSection";
-import { IconCash, IconDeviceGamepad, IconUsers } from "@tabler/icons";
 import { IServerListPlayer, ISteamProps } from "@utils/Types";
 import useSWR from "swr";
 import {
@@ -22,15 +21,12 @@ import {
 	YAxis,
 	CartesianGrid,
 	Tooltip,
-	Legend,
 	ResponsiveContainer,
 } from "recharts";
+import { useState } from "react";
+import { DashInfo } from "@molecules/DashInfo";
 
 const data = [
-	{
-		name: "00:00",
-		players: 0,
-	},
 	{
 		name: "01:00",
 		players: 2,
@@ -101,39 +97,46 @@ const data = [
 	},
 	{
 		name: "18:00",
-		players: 44,
+		players: 46,
 	},
 	{
 		name: "19:00",
-		players: 64,
+		players: 42,
 	},
 	{
 		name: "20:00",
-		players: 64,
+		players: 44,
 	},
 	{
 		name: "21:00",
-		players: 64,
+		players: 46,
 	},
 	{
 		name: "22:00",
-		players: 64,
+		players: 45,
 	},
 	{
 		name: "23:00",
-		players: 64,
+		players: 46,
 	},
 	{
-		name: "24:00",
-		players: 64,
+		name: "00:00",
+		players: 49,
 	},
 ];
 
 const Home = (props: ISteamProps) => {
 	const { user: steam } = props.steam;
 	const { ref, height } = useElementSize();
+	const [interval, setInterval] = useState<string>("24h");
 	const theme = useMantineTheme();
 
+	const { data: time_stats } = useSWR(
+		`/api/bygden/fetch-player-stats?interval=${interval}`,
+		{
+			revalidateOnFocus: false,
+		}
+	);
 	const { data: info } = useSWR(
 		`/api/bygden/basic-info?license=${steam.fivemLicenseFormat}`,
 		{
@@ -144,54 +147,10 @@ const Home = (props: ISteamProps) => {
 	return (
 		<Container fluid>
 			<Grid>
-				<Grid.Col span={4}>
-					<Paper withBorder radius="md" p="xs">
-						<Group>
-							<DashRing
-								title="SPELARE ONLINE"
-								subtitle={`${info?.online ?? 0} / 64`}
-								value={info?.online ?? 0}
-								maxValue={64}
-								icon={<IconUsers size={22} stroke={1.5} />}
-							/>
-						</Group>
-					</Paper>
-				</Grid.Col>
-
-				<Grid.Col span={4}>
-					<Paper withBorder radius="md" p="xs">
-						<Group>
-							<DashRing
-								title="ANTAL KARAKTÄRER"
-								subtitle={`${info?.characters ?? 0} / 3`}
-								icon={
-									<IconDeviceGamepad size={22} stroke={1.5} />
-								}
-								value={info?.characters ?? 0}
-								maxValue={3}
-							/>
-						</Group>
-					</Paper>
-				</Grid.Col>
-
-				<Grid.Col span={4}>
-					<Paper withBorder radius="md" p="xs">
-						<Group>
-							<DashRing
-								title="TOTAL EKONOMI"
-								subtitle={Intl.NumberFormat("sv-SE", {
-									notation: "compact",
-									maximumFractionDigits: 1,
-								}).format(info?.economy ?? 0)}
-								color="green"
-								icon={<IconCash size={22} stroke={1.5} />}
-							/>
-						</Group>
-					</Paper>
-				</Grid.Col>
+				<DashInfo serverInfo={info} />
 			</Grid>
 
-			<Grid mt={32}>
+			<Grid mt={24}>
 				<Grid.Col span={8}>
 					<Container fluid p={0} ref={ref}>
 						<BlogSection />
@@ -214,7 +173,12 @@ const Home = (props: ISteamProps) => {
 								Spelare online
 							</Title>
 
-							<ScrollArea mt={8} style={{ height: "100%" }}>
+							<ScrollArea
+								mt={8}
+								style={{ height: "100%" }}
+								type="always"
+								offsetScrollbars
+							>
 								<Table>
 									<thead>
 										<tr>
@@ -232,7 +196,7 @@ const Home = (props: ISteamProps) => {
 														<Code>{player.id}</Code>
 													</td>
 													<td>{player.name}</td>
-													<td>{player.ping}</td>
+													<td>{player.ping}ms</td>
 												</tr>
 											)
 										)}
@@ -245,22 +209,42 @@ const Home = (props: ISteamProps) => {
 			</Grid>
 
 			<Container fluid p={0} mt={32}>
-				<Paper withBorder radius="md" p="xs" sx={{ height: '43vh' }}>
-					<Title order={3} transform="uppercase">
-						Server statisitk (24h)
-					</Title>
+				<Paper withBorder radius="md" p="xs" sx={{ height: "43vh" }}>
+					<Group position="apart">
+						<Title order={3} transform="uppercase">
+							Spelar statisitk ({interval})
+						</Title>
+
+						<Select
+							placeholder="Välj tids intervall"
+							defaultValue={"24h"}
+							data={[
+								{ value: "24h", label: "24 timmar" },
+								{ value: "1w", label: "1 vecka" },
+								{ value: "1m", label: "1 månad" },
+							]}
+							onChange={async (value: string) => {
+								setInterval(value);
+							}}
+						/>
+					</Group>
 
 					<ResponsiveContainer width="100%" height="100%">
 						<LineChart
-							data={data}
-							margin={{ top: 32, right: 8, left: -32, bottom: 32 }}
+							data={time_stats?.stats}
+							margin={{
+								top: 32,
+								right: 8,
+								left: -32,
+								bottom: 32,
+							}}
 						>
 							<CartesianGrid
 								stroke={theme.colors.dark[3]}
 								vertical={false}
 							/>
-							<XAxis dataKey="name" />
-							<YAxis domain={[0, 64]} />
+							<XAxis dataKey="hour" />
+							<YAxis domain={[0, info?.max_slots ?? 0]} />
 							<Tooltip
 								formatter={(value) => [
 									`${value}st`,
@@ -277,7 +261,7 @@ const Home = (props: ISteamProps) => {
 							/>
 							<Line
 								type="monotone"
-								dataKey="players"
+								dataKey="online"
 								stroke={theme.colors.orange[4]}
 								activeDot={{ r: 8 }}
 								strokeWidth={4}

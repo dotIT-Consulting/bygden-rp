@@ -69,9 +69,9 @@ const BlogSection = () => {
 
 						<Group mt="lg">
 							<div>
-								<Text weight={500}>LifeGoal</Text>
+								<Text weight={500}>Raven</Text>
 								<Text size="xs" color="dimmed">
-									Publiserades: {date}
+									Publicerades: {date}
 								</Text>
 							</div>
 						</Group>
@@ -106,9 +106,9 @@ const BlogSection = () => {
 
 						<Group mt="lg">
 							<div>
-								<Text weight={500}>LifeGoal</Text>
+								<Text weight={500}>Raven</Text>
 								<Text size="xs" color="dimmed">
-									Publiserades: {date}
+									Publicerades: {date}
 								</Text>
 							</div>
 						</Group>
@@ -143,9 +143,9 @@ const BlogSection = () => {
 
 						<Group mt="lg">
 							<div>
-								<Text weight={500}>LifeGoal</Text>
+								<Text weight={500}>Raven</Text>
 								<Text size="xs" color="dimmed">
-									Publiserades: {date}
+									Publicerades: {date}
 								</Text>
 							</div>
 						</Group>

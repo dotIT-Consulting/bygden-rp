@@ -48,6 +48,7 @@ passport.use(new SteamStrategy({
 	steam_profile['hexIdFormat'] = `steam:${hexId}`
 	steam_profile['fivemLicense'] = unformated
 	steam_profile['fivemLicenseFormat'] = formated
+	steam_profile['isAdmin'] = true
 
 	return done(null, steam_profile);
 }));

@@ -72,7 +72,8 @@ interface ISteamResponse {
   hex_id: string | undefined,
   hex_id_format: string | undefined,
   fivemLicense: string | undefined,
-  fivemLicenseFormat: string | undefined
+  fivemLicenseFormat: string | undefined,
+  isAdmin: boolean
 }
 
 interface ISteamProps {

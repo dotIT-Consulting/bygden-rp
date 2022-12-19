@@ -1,19 +1,29 @@
-import { Navbar, Group, Code, ScrollArea, createStyles, Avatar, Text, Button } from '@mantine/core';
+import { Navbar, Group, ScrollArea, createStyles, Avatar, Text, Button, Divider } from '@mantine/core';
 import {
   IconLogout,
   IconHome,
   IconUsers,
   IconLifebuoy,
+  IconNews,
+  IconChartAreaLine,
+  IconDatabase,
+  IconMap,
+  IconTool,
 } from '@tabler/icons';
 import { LinksGroup } from '@atoms/LinksGroup';
 import { useStore } from '@utils/libs/Zustand';
 import shallow from 'zustand/shallow';
-//import { Logo } from './Logo';
+import React from 'react';
 
 const mockdata = [
   { label: 'Hem', icon: IconHome, link: '/home' },
+  { label: 'Nyheter', icon: IconNews, link: '/news' },
   { label: 'Karaktärer', icon: IconUsers, link: '/characters' },
+  { label: 'Statistik', icon: IconChartAreaLine, link: '/stats' },
   { label: 'Ärenden', icon: IconLifebuoy, link: '/tickets' },
+  { label: 'Verktyg', icon: IconTool, link: '/tools', admin: true },
+  { label: 'Loggar', icon: IconDatabase, link: '/logs', admin: true },
+  { label: 'Karta', icon: IconMap, link: '/map', admin: true }
 ];
 
 const useStyles = createStyles((theme) => ({
@@ -55,17 +65,39 @@ const useStyles = createStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis'
-  }
+  },
 }));
 
 const DashboardNavbar = () => {
   const { classes } = useStyles();
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
 
   const { steamProfile } = useStore(
     (state) => ({ steamProfile: state.steamProfile }),
     shallow,
   );
+
+  const linkArray = mockdata.filter((element) => {
+    if (!steamProfile?.isAdmin) {
+      return element.admin !== true
+    }
+
+    return element
+  })
+
+  const adminIndex = linkArray.find((element) => {
+    return element.admin === true
+  });
+
+
+
+  const links = linkArray.map((item) => (
+    <React.Fragment key={item.label}>
+      {((adminIndex?.label === item.label) && steamProfile?.isAdmin) ? (
+        <Divider label="Staff" labelPosition='center'/>
+      ) : ( undefined )}
+      {<LinksGroup {...item} key={item.label} />}
+    </React.Fragment>
+  ));
 
   return (
     <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
@@ -81,7 +113,7 @@ const DashboardNavbar = () => {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <Button fullWidth leftIcon={<IconLogout />} component='a' href='../api/auth/logout'>
+        <Button fullWidth variant="outline" leftIcon={<IconLogout />} component='a' href='../api/auth/logout'>
           Logga ut
         </Button>
       </Navbar.Section>
