@@ -24,11 +24,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       serverEconomy += playerMoney
     }
 
-    const rounded = Math.round(serverEconomy)
-
     await prisma.stats_server_money.create({
       data: {
-        money: rounded
+        money: serverEconomy
       }
     })
 
@@ -46,7 +44,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 }
 
-export default verifySignature(handler);
+export default /*verifySignature(handler)*/ handler;
 
 export const config = {
   api: {
