@@ -1,4 +1,5 @@
 import { prisma } from "@utils/libs/Prisma";
+import moment from 'moment';
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,12 +11,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const lastDay = new Date(Date.now() - (24 * 60 * 60 * 1000)).toISOString();
+    let dateInterval;
+
+    switch (interval) {
+      case "24h":
+        dateInterval = moment().subtract(24, 'hours').toISOString()
+        break;
+
+      case "1w":
+        dateInterval = moment().subtract(1, 'week').toISOString()
+        break;
+
+      case "1m":
+        dateInterval = moment().subtract(1, 'month').toISOString()
+        break;
+    
+      default:
+        dateInterval = moment().subtract(24, 'hours').toISOString()
+        break;
+    }
 
     const serverStats = await prisma.stats_players_online.findMany({
       where: {
         date: {
-          gte: lastDay,
+          gte: dateInterval,
         }
       }
     })
@@ -28,7 +47,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       timeStats.push({
         online,
-        hour
+        hour,
+        date
       })
     }
 
@@ -42,7 +62,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   return res.status(500).json({
-    error: "Failed to fetch server info"
+    error: "Failed to fetch player stats"
   })
 }
 

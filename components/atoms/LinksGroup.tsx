@@ -56,33 +56,32 @@ interface LinksGroupProps {
   link?: string | undefined;
 }
 
-const LinksGroup = ({ icon: Icon, label, initiallyOpened, links, admin, link }: LinksGroupProps) => {
+const LinksGroup = ({ icon: Icon, label, initiallyOpened, links, link }: LinksGroupProps) => {
   const router = useRouter();
-
 
   const { classes, theme, cx } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
-  const items = (hasLinks ? links : []).map((link) => (
+  const items = (hasLinks ? links : []).map((link) => {
+    return (
     <Text<'a'>
       component="a"
       className={classes.link}
       href={link.link}
       key={link.label}
-      onClick={(event) => event.preventDefault()}
     >
       {link.label}
     </Text>
-  ));
+  )});
 
   return (
     <>
-      <UnstyledButton onClick={() => setOpened((o) => !o)} href={`.${link}`} component={'a'} className={cx(classes.control, { [classes.linkActive]: router.pathname.includes(link ?? '') })}>
+      <UnstyledButton onClick={() => setOpened((o) => !o)} href={link ? link : undefined} component={'a'} className={cx(classes.control, { [classes.linkActive]: link ? router.pathname.includes(link) : false })}>
         <Group position="apart" spacing={0}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeIcon variant="light" size={30}>
-              <Icon size={18} />
+            <ThemeIcon variant="light" size={30} color={theme.black}>
+              <Icon size={18} color="white" />
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
@@ -92,7 +91,7 @@ const LinksGroup = ({ icon: Icon, label, initiallyOpened, links, admin, link }: 
               size={14}
               stroke={1.5}
               style={{
-                transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
+                transform: (opened) ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
               }}
             />
           )}

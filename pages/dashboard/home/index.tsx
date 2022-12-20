@@ -33,10 +33,7 @@ const Home = (props: ISteamProps) => {
 	const theme = useMantineTheme();
 
 	const { data: time_stats } = useSWR(
-		`/api/bygden/fetch-player-stats?interval=${interval}`,
-		{
-			revalidateOnFocus: false,
-		}
+		`/api/bygden/fetch-player-stats?interval=${interval}`
 	);
 	const { data: info } = useSWR(
 		`/api/bygden/basic-info?license=${steam.fivemLicenseFormat}`,
@@ -113,7 +110,7 @@ const Home = (props: ISteamProps) => {
 				<Paper withBorder radius="md" p="xs" sx={{ height: "43vh" }}>
 					<Group position="apart">
 						<Title order={3} transform="uppercase">
-							Spelar statisitk ({interval})
+							Spelar statistik ({interval})
 						</Title>
 
 						<Select
@@ -124,7 +121,7 @@ const Home = (props: ISteamProps) => {
 								{ value: "1w", label: "1 vecka" },
 								{ value: "1m", label: "1 månad" },
 							]}
-							onChange={async (value: string) => {
+							onChange={(value: string) => {
 								setInterval(value);
 							}}
 						/>

@@ -97,6 +97,30 @@ interface IServerListPlayer {
   ping: number
 }
 
+interface ICharacterResponse {
+  id: number,
+  citizenid: string,
+  cid: number,
+  license: string,
+  name: string,
+  money: string,
+  charinfo: string,
+  job: string,
+  gang: string,
+  position: string,
+  metadata: string,
+  inventory: string,
+  last_updated: string,
+  phone_number: number | null,
+  iban: number | null,
+  pincode: number | null,
+  crafting_level: number,
+  credits: number,
+  tasks: string,
+  tasks_completed: string,
+  winnings: string
+}
+
 export type {
   IPageMeta,
   ILayoutProps,
@@ -107,5 +131,6 @@ export type {
   ISteamResponse,
   IGetServerSideProps,
   ISteamProps,
-  IServerListPlayer
+  IServerListPlayer,
+  ICharacterResponse
 }
