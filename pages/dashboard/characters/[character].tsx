@@ -22,11 +22,14 @@ export async function getServerSideProps({ params }: any) {
 }
 
 const parseJSON = (json: any) => {
+  if (typeof json !== 'string') {
+    return []
+  }
+
   try {
     return JSON.parse(json)
   } catch (error) {
-    console.error(error)
-    return [];
+    return json;
   }
 }
 
