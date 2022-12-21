@@ -199,7 +199,7 @@ const HomePage = (props: any) => {
 			<main ref={targetRef}>
 				<Container mt={32} size="xl" pb={32}>
 					<Title order={1} mb={16} transform="uppercase">
-						Filosofin
+						Vår filosofi
 					</Title>
 
 					<TypographyStylesProvider className={ classes.description }>
