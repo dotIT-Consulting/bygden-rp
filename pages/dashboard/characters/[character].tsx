@@ -27,7 +27,8 @@ const parseJSON = (json: any) => {
   }
 
   try {
-    return JSON.parse(json)
+    const parsed = JSON.parse(json)
+    return parsed
   } catch (error) {
     return json;
   }
