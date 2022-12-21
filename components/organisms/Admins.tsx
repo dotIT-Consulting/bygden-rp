@@ -119,7 +119,7 @@ const data = [
 
 const AdminsSlider = () => {
 	const { classes } = useStyles();
-	const autoplay = useRef(Autoplay({ delay: 4000 }));
+	const autoplay = useRef(Autoplay({ delay: 2000 }));
 
 	const slides = data.map((item, index) => (
 		<Carousel.Slide key={index}>
@@ -161,8 +161,6 @@ const AdminsSlider = () => {
 			loop
 			withControls={false}
 			plugins={[autoplay.current]}
-			onMouseEnter={autoplay.current.stop}
-			onMouseLeave={autoplay.current.reset}
 			classNames={{
 				root: classes.carousel,
 				indicator: classes.carouselIndicator,
