@@ -30,9 +30,9 @@ const useStyles = createStyles((theme) => ({
 			width: 16,
 		},
 
-    [theme.fn.smallerThan("sm")]: {
-      marginTop: -48,
-    }
+		[theme.fn.smallerThan("sm")]: {
+			marginTop: -48,
+		},
 	},
 }));
 
@@ -47,7 +47,7 @@ const data = [
 			<Badge color="red" variant="outline">
 				Admin
 			</Badge>,
-		]
+		],
 	},
 	{
 		username: "Raven",
@@ -59,7 +59,7 @@ const data = [
 			<Badge color="red" variant="outline">
 				Admin
 			</Badge>,
-		]
+		],
 	},
 	{
 		username: "ralf",
@@ -70,7 +70,7 @@ const data = [
 			</Badge>,
 		],
 	},
-  {
+	{
 		username: "Miccen",
 		picture: "https://discordav.deno.dev/156499751846543362",
 		role: [
