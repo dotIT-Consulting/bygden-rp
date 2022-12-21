@@ -3,10 +3,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { license } = req.query;
-  if (req.method !== "GET" || !license) {
+  if (req.method !== "GET") {
     return res
       .status(500)
-      .json({ success: false, response: "Incorrect HTTP method or missing FiveM license" });
+      .json({ success: false, response: "Incorrect HTTP method" });
   }
 
   try {
@@ -16,13 +16,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const rawInfo = await fetch(`http://${process.env.FIVEM_SERVER_IP}/info.json`)
     const info = await rawInfo.json();
 
-    const characters = await prisma.players.count({
-      where: {
-        license: license as string
-      }
-    })
+    let characters = 0;
+    let economy = undefined;
 
-    const economy = await prisma.stats_server_money.findFirst({
+    if (license) {
+      characters = await prisma.players.count({
+        where: {
+          license: license as string
+        }
+      })
+    }
+
+    economy = await prisma.stats_server_money.findFirst({
       select: {
         money: true,
       },

@@ -28,6 +28,9 @@ export const getServerSideProps = async () => {
           buttonStyle
         }
       }
+      description {
+        html
+      }
     }
 
     navbars(last: 1) {

@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { interval } = req.query;
-  if (req.method !== "GET" || !interval) {
+  if (req.method !== "GET") {
     return res
       .status(500)
-      .json({ success: false, response: "Incorrect HTTP method or missing interval query" });
+      .json({ success: false, response: "Incorrect HTTP method" });
   }
 
   try {

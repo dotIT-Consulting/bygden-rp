@@ -61,7 +61,9 @@ const CustomTheme = {
   globalStyles: () => ({
     body: {
       backgroundColor: 'black',
-      overflow: 'hidden'
+      '::-webkit-scrollbar': {
+        display: 'none',
+      }
     }
   }),
   components: {
