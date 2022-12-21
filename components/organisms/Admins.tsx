@@ -70,6 +70,15 @@ const data = [
 			</Badge>,
 		],
 	},
+  {
+		username: "Miccen",
+		picture: "https://discordav.deno.dev/156499751846543362",
+		role: [
+			<Badge color="red" variant="outline">
+				Admin
+			</Badge>,
+		],
+	},
 	{
 		username: "Nostric",
 		picture: "https://discordav.deno.dev/219817062913015809",
