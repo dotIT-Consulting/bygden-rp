@@ -74,13 +74,20 @@ const useStyles = createStyles((theme) => ({
 		color: "white",
 		textShadow: "2px 2px 3px rgba(154, 154, 154, 0.7)",
 	},
+
+	description: {
+		color: 'white',
+		maxWidth: '70%',
+		paddingBottom: 1,
+		[theme.fn.smallerThan("sm")]: {
+			maxWidth: '100%'
+		}
+	}
 }));
 
 const HomePage = (props: any) => {
 	const { classes, theme } = useStyles();
-	const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
-		offset: 60,
-	});
+	const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
 	const { data: info } = useSWR(`/api/bygden/basic-info`, {
 		refreshInterval: 60 * 1000,
@@ -174,7 +181,7 @@ const HomePage = (props: any) => {
 							component="a"
 							size={theme.spacing.xl * 2}
 							onClick={() =>
-								scrollIntoView({ alignment: "center" })
+								scrollIntoView({ alignment: "start" })
 							}
 							sx={{
 								color: "white",
@@ -189,17 +196,17 @@ const HomePage = (props: any) => {
 				</Container>
 			</section>
 
-			<main>
-				<Container mt={32} ref={targetRef} size="xl">
+			<main ref={targetRef}>
+				<Container mt={32} size="xl" pb={32}>
 					<Title order={1} mb={16} transform="uppercase">
 						Filosofin
 					</Title>
 
-					<TypographyStylesProvider mb={16} sx={{ color: 'white' }}>
+					<TypographyStylesProvider className={ classes.description }>
 						<div dangerouslySetInnerHTML={{ __html: props?.home?.description?.html }} />
 					</TypographyStylesProvider>
 
-					<Title order={1} mb={16} transform="uppercase">
+					<Title order={1} mt={32} mb={16} transform="uppercase">
 						Möt teamet
 					</Title>
 

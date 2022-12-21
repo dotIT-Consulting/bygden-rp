@@ -15,7 +15,7 @@ import React from "react";
 
 const useStyles = createStyles((theme) => ({
 	carousel: {
-		marginBlock: 32,
+		marginBlock: 16,
 		height: 280,
 		[theme.fn.smallerThan("sm")]: {
 			height: 320,
@@ -29,6 +29,10 @@ const useStyles = createStyles((theme) => ({
 		"&[data-active]": {
 			width: 16,
 		},
+
+    [theme.fn.smallerThan("sm")]: {
+      marginTop: -48,
+    }
 	},
 }));
 
