@@ -1,10 +1,19 @@
+const { withSentryConfig } = require('@sentry/nextjs');
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const moduleExports = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
     domains: ['media.graphassets.com'],
   },
-}
+  sentry: {
+    hideSourceMaps: true,
+  },
+};
 
-module.exports = nextConfig
+const sentryWebpackPluginOptions = {
+  silent: true,
+};
+
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
