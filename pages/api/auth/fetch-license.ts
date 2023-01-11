@@ -9,12 +9,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ success: false, response: "Incorrect HTTP method or missing Steam ID" });
   }
 
-  const steamId = <string> steam;
-
   try {
 		const data = await prisma.players.findFirst({
       where: {
-        steamid: steamId
+        steamid: steam as string
       },
 			select: {
 				license: true
