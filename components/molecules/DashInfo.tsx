@@ -25,7 +25,7 @@ const DashInfo = ({ serverInfo } : { serverInfo: any }) => {
           <Group>
             <DashRing
               title="ANTAL KARAKTÄRER"
-              subtitle={`${serverInfo?.characters ?? 0} / 3`}
+              subtitle={`${serverInfo?.characters ?? 0} / 4`}
               icon={
                 <IconDeviceGamepad size={22} stroke={1.5} />
               }
