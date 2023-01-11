@@ -96,10 +96,6 @@ model boost_contract {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model cardealer_stock {
   vehicle String? @db.VarChar(255)
   price   Int?    @default(0)
@@ -108,10 +104,6 @@ model cardealer_stock {
   @@ignore
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model codem_hud_data {
   identifier String? @unique(map: "identifier") @db.VarChar(65)
@@ -147,10 +139,6 @@ model dealers {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model dpkeybinds {
   id       String? @db.VarChar(50)
   keybind1 String? @default("num4") @db.VarChar(50)
@@ -169,10 +157,6 @@ model dpkeybinds {
   @@ignore
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model elite_cases {
   citizenid  String? @db.VarChar(50)
@@ -230,6 +214,25 @@ model houselocations {
   garage String?  @db.Text
 
   @@index([name], map: "name")
+}
+
+model hunk_ac {
+  token            String? @db.LongText
+  license          String  @id @db.VarChar(50)
+  identifier       String? @db.VarChar(25)
+  liveid           String? @db.VarChar(21)
+  xblid            String? @db.VarChar(21)
+  discord          String? @db.VarChar(30)
+  playerip         String? @db.VarChar(25)
+  targetplayername String? @db.VarChar(32)
+  reason           String  @db.VarChar(255)
+}
+
+model hunk_ac_admin {
+  id        Int    @id @default(autoincrement())
+  license   String @db.VarChar(255)
+  steamname String @default("") @db.VarChar(255)
+  type      String @db.VarChar(255)
 }
 
 model jerzys_spawns {
@@ -370,10 +373,6 @@ model mdt_convictions {
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model mdt_data {
   id          Int     @default(autoincrement())
   cid         String? @db.VarChar(20)
@@ -459,10 +458,6 @@ model occasion_vehicles {
   @@index([occasionid], map: "occasionId")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model okokbanking_societies {
   society        String? @db.VarChar(255)
@@ -596,6 +591,26 @@ model phone_instagram_posts {
   timestamp     DateTime @default(now()) @db.Timestamp(0)
 }
 
+model phone_instagram_stories {
+  id                            String                          @id @db.VarChar(50)
+  username                      String                          @db.VarChar(20)
+  image                         String                          @db.VarChar(200)
+  timestamp                     DateTime                        @default(now()) @db.Timestamp(0)
+  phone_instagram_accounts      phone_instagram_accounts        @relation(fields: [username], references: [username], onDelete: Cascade, onUpdate: Restrict, map: "phone_instagram_stories_ibfk_1")
+  phone_instagram_stories_views phone_instagram_stories_views[]
+
+  @@index([username], map: "username")
+}
+
+model phone_instagram_stories_views {
+  story_id                String                  @db.VarChar(50)
+  viewer                  String                  @db.VarChar(20)
+  timestamp               DateTime                @default(now()) @db.Timestamp(0)
+  phone_instagram_stories phone_instagram_stories @relation(fields: [story_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_instagram_stories_views_ibfk_1")
+
+  @@id([story_id, viewer])
+}
+
 model phone_last_phone {
   identifier   String @id @db.VarChar(100)
   phone_number String @db.VarChar(15)
@@ -625,6 +640,14 @@ model phone_mail_messages {
   actions     String?  @db.LongText
   read        Boolean  @default(false)
   timestamp   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model phone_maps_locations {
+  id           String @id @db.VarChar(50)
+  phone_number String @db.VarChar(15)
+  name         String @db.VarChar(50)
+  x_pos        Float  @db.Float
+  y_pos        Float  @db.Float
 }
 
 model phone_marketplace_posts {
@@ -885,6 +908,13 @@ model phone_twitter_notifications {
   timestamp DateTime @default(now()) @db.Timestamp(0)
 }
 
+model phone_twitter_promoted {
+  tweet_id             String               @id @db.VarChar(50)
+  promotions           Int                  @default(0)
+  views                Int                  @default(0)
+  phone_twitter_tweets phone_twitter_tweets @relation(fields: [tweet_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_twitter_promoted_ibfk_1")
+}
+
 model phone_twitter_retweets {
   tweet_id  String   @db.VarChar(50)
   username  String   @db.VarChar(20)
@@ -1080,135 +1110,6 @@ model processing {
   rot    Float
 }
 
-model sadiqbilling {
-  id                  Int       @id @default(autoincrement())
-  receiver_identifier String    @db.VarChar(255)
-  receiver_name       String    @db.VarChar(255)
-  author_identifier   String    @db.VarChar(255)
-  author_name         String?   @db.VarChar(255)
-  society             String    @db.VarChar(255)
-  society_name        String    @db.VarChar(255)
-  item                String    @db.VarChar(255)
-  invoice_value       Int
-  status              String    @db.VarChar(50)
-  notes               String?   @default(" ") @db.VarChar(255)
-  sent_date           String    @db.VarChar(255)
-  limit_pay_date      String?   @db.VarChar(255)
-  fees_amount         Int?      @default(0)
-  paid_date           DateTime? @db.Timestamp(0)
-}
-
-model stashitems {
-  id    Int     @default(autoincrement())
-  stash String  @id @default("[]") @db.VarChar(255)
-  items String? @db.LongText
-
-  @@index([id], map: "id")
-}
-
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-model stats_player_money {
-  citizenid String    @db.VarChar(50)
-  money     Float     @default(0) @db.Float
-  cash      Float     @default(0) @db.Float
-  bank      Float     @default(0) @db.Float
-  date      DateTime? @default(now()) @db.Date
-
-  @@ignore
-}
-
-model stats_server_money {
-  id    Int      @id @default(autoincrement())
-  money Float    @default(0) @db.Float
-  date  DateTime @default(now()) @db.DateTime(0)
-}
-
-model trunkitems {
-  id    Int     @default(autoincrement())
-  plate String  @id @default("[]") @db.VarChar(255)
-  items String? @db.LongText
-
-  @@index([id], map: "id")
-}
-
-model twitter_tweets {
-  id        Int     @id @default(autoincrement())
-  firstName String? @db.VarChar(50)
-  lastName  String? @db.VarChar(50)
-  message   String? @db.VarChar(50)
-  url       String? @db.VarChar(255)
-  time      String? @db.VarChar(50)
-  picture   String? @db.VarChar(255)
-  owner     String? @db.VarChar(50)
-}
-
-model vehicle_parts {
-  id      Int    @id @default(autoincrement())
-  plate   String @db.VarChar(100)
-  parts   String @db.LongText
-  mileage Float  @default(0) @db.Float
-}
-
-model stats_players_online {
-  id     Int       @id @default(autoincrement())
-  online Int?      @default(0)
-  date   DateTime? @default(now()) @db.DateTime(0)
-}
-
-model hunk_ac {
-  token            String? @db.LongText
-  license          String  @id @db.VarChar(50)
-  identifier       String? @db.VarChar(25)
-  liveid           String? @db.VarChar(21)
-  xblid            String? @db.VarChar(21)
-  discord          String? @db.VarChar(30)
-  playerip         String? @db.VarChar(25)
-  targetplayername String? @db.VarChar(32)
-  reason           String  @db.VarChar(255)
-}
-
-model hunk_ac_admin {
-  id        Int    @id @default(autoincrement())
-  license   String @db.VarChar(255)
-  steamname String @default("") @db.VarChar(255)
-  type      String @db.VarChar(255)
-}
-
-model phone_instagram_stories {
-  id                            String                          @id @db.VarChar(50)
-  username                      String                          @db.VarChar(20)
-  image                         String                          @db.VarChar(200)
-  timestamp                     DateTime                        @default(now()) @db.Timestamp(0)
-  phone_instagram_accounts      phone_instagram_accounts        @relation(fields: [username], references: [username], onDelete: Cascade, onUpdate: Restrict, map: "phone_instagram_stories_ibfk_1")
-  phone_instagram_stories_views phone_instagram_stories_views[]
-
-  @@index([username], map: "username")
-}
-
-model phone_instagram_stories_views {
-  story_id                String                  @db.VarChar(50)
-  viewer                  String                  @db.VarChar(20)
-  timestamp               DateTime                @default(now()) @db.Timestamp(0)
-  phone_instagram_stories phone_instagram_stories @relation(fields: [story_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_instagram_stories_views_ibfk_1")
-
-  @@id([story_id, viewer])
-}
-
-model phone_maps_locations {
-  id           String @id @db.VarChar(50)
-  phone_number String @db.VarChar(15)
-  name         String @db.VarChar(50)
-  x_pos        Float  @db.Float
-  y_pos        Float  @db.Float
-}
-
-model phone_twitter_promoted {
-  tweet_id             String               @id @db.VarChar(50)
-  promotions           Int                  @default(0)
-  views                Int                  @default(0)
-  phone_twitter_tweets phone_twitter_tweets @relation(fields: [tweet_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_twitter_promoted_ibfk_1")
-}
-
 model ra_racing_events {
   id                Int      @id @default(autoincrement())
   player_identifier String   @db.VarChar(60)
@@ -1274,6 +1175,41 @@ model ra_racing_user_settings {
   created_at        DateTime @default(now()) @db.DateTime(0)
 }
 
+model sadiqbilling {
+  id                  Int       @id @default(autoincrement())
+  receiver_identifier String    @db.VarChar(255)
+  receiver_name       String    @db.VarChar(255)
+  author_identifier   String    @db.VarChar(255)
+  author_name         String?   @db.VarChar(255)
+  society             String    @db.VarChar(255)
+  society_name        String    @db.VarChar(255)
+  item                String    @db.VarChar(255)
+  invoice_value       Int
+  status              String    @db.VarChar(50)
+  notes               String?   @default(" ") @db.VarChar(255)
+  sent_date           String    @db.VarChar(255)
+  limit_pay_date      String?   @db.VarChar(255)
+  fees_amount         Int?      @default(0)
+  paid_date           DateTime? @db.Timestamp(0)
+}
+
+model stashitems {
+  id    Int     @default(autoincrement())
+  stash String  @id @default("[]") @db.VarChar(255)
+  items String? @db.LongText
+
+  @@index([id], map: "id")
+}
+
+model stats_player_money {
+  id        Int       @id @default(autoincrement())
+  citizenid String    @db.VarChar(50)
+  money     Float     @default(0) @db.Float
+  cash      Float     @default(0) @db.Float
+  bank      Float     @default(0) @db.Float
+  date      DateTime? @default(now()) @db.Date
+}
+
 model stats_players_combat {
   citizenid       String @id @db.VarChar(50)
   bullets_fired   Int    @default(0)
@@ -1282,9 +1218,52 @@ model stats_players_combat {
   deaths          Int    @default(0)
 }
 
+model stats_players_online {
+  id     Int       @id @default(autoincrement())
+  online Int?      @default(0)
+  date   DateTime? @default(now()) @db.DateTime(0)
+}
+
+model stats_server_money {
+  id    Int      @id @default(autoincrement())
+  money Float    @default(0) @db.Float
+  date  DateTime @default(now()) @db.DateTime(0)
+}
+
+model trunkitems {
+  id    Int     @default(autoincrement())
+  plate String  @id @default("[]") @db.VarChar(255)
+  items String? @db.LongText
+
+  @@index([id], map: "id")
+}
+
+model twitter_tweets {
+  id        Int     @id @default(autoincrement())
+  firstName String? @db.VarChar(50)
+  lastName  String? @db.VarChar(50)
+  message   String? @db.VarChar(50)
+  url       String? @db.VarChar(255)
+  time      String? @db.VarChar(50)
+  picture   String? @db.VarChar(255)
+  owner     String? @db.VarChar(50)
+}
+
+model vehicle_parts {
+  id      Int    @id @default(autoincrement())
+  plate   String @db.VarChar(100)
+  parts   String @db.LongText
+  mileage Float  @default(0) @db.Float
+}
+
 enum management_funds_type {
   boss
   gang
+}
+
+enum ra_racing_tracks_type {
+  SPRINT
+  CIRCUIT
 }
 
 enum bank_accounts_account_type {
@@ -1292,9 +1271,4 @@ enum bank_accounts_account_type {
   Savings
   Business
   Gang
-}
-
-enum ra_racing_tracks_type {
-  SPRINT
-  CIRCUIT
 }
