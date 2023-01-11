@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
 		const data = await prisma.players.findFirst({
       where: {
-        license: 'license:deb5e58da906e04eccfb22cf255e6d4ab58c5b42'
+        steamid: steam
       },
 			select: {
 				license: true

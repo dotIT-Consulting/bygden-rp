@@ -99,6 +99,7 @@ model boost_contract {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model cardealer_stock {
   vehicle String? @db.VarChar(255)
   price   Int?    @default(0)
@@ -107,6 +108,7 @@ model cardealer_stock {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -148,6 +150,7 @@ model dealers {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model dpkeybinds {
   id       String? @db.VarChar(50)
   keybind1 String? @default("num4") @db.VarChar(50)
@@ -166,6 +169,7 @@ model dpkeybinds {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -369,6 +373,7 @@ model mdt_convictions {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model mdt_data {
   id          Int     @default(autoincrement())
   cid         String? @db.VarChar(20)
@@ -458,6 +463,7 @@ model occasion_vehicles {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model okokbanking_societies {
   society        String? @db.VarChar(255)
   society_name   String? @db.VarChar(255)
@@ -522,14 +528,15 @@ model phone_darkchat_messages {
 }
 
 model phone_instagram_accounts {
-  display_name  String   @db.VarChar(30)
-  username      String   @id @db.VarChar(20)
-  password      String   @db.VarChar(100)
-  profile_image String?  @db.VarChar(200)
-  bio           String?  @db.VarChar(100)
-  phone_number  String   @db.VarChar(15)
-  verified      Boolean? @default(false)
-  date_joined   DateTime @default(now()) @db.Timestamp(0)
+  display_name            String                    @db.VarChar(30)
+  username                String                    @id @db.VarChar(20)
+  password                String                    @db.VarChar(100)
+  profile_image           String?                   @db.VarChar(200)
+  bio                     String?                   @db.VarChar(100)
+  phone_number            String                    @db.VarChar(15)
+  verified                Boolean?                  @default(false)
+  date_joined             DateTime                  @default(now()) @db.Timestamp(0)
+  phone_instagram_stories phone_instagram_stories[]
 }
 
 model phone_instagram_comments {
@@ -635,6 +642,7 @@ model phone_message_channels {
   is_group               Boolean  @default(false)
   last_message           String   @default("") @db.VarChar(50)
   last_message_timestamp DateTime @default(now()) @db.Timestamp(0)
+  name                   String?  @db.VarChar(50)
 }
 
 model phone_message_members {
@@ -785,7 +793,7 @@ model phone_tinder_accounts {
   phone_number     String   @id @db.VarChar(15)
   photos           String?  @db.Text
   bio              String?  @db.VarChar(500)
-  dob              DateTime @default(now()) @db.Timestamp(0)
+  dob              DateTime @db.Date
   is_male          Boolean
   interested_men   Boolean
   interested_women Boolean
@@ -829,6 +837,7 @@ model phone_twitter_accounts {
   follower_count  Int      @default(0)
   following_count Int      @default(0)
   date_joined     DateTime @default(now()) @db.Timestamp(0)
+  pinned_tweet    String?  @db.VarChar(50)
 }
 
 model phone_twitter_follows {
@@ -885,15 +894,16 @@ model phone_twitter_retweets {
 }
 
 model phone_twitter_tweets {
-  id            String   @id @db.VarChar(50)
-  username      String   @db.VarChar(20)
-  content       String?  @db.VarChar(280)
-  attachments   String?  @db.Text
-  reply_to      String?  @db.VarChar(50)
-  like_count    Int?     @default(0)
-  reply_count   Int?     @default(0)
-  retweet_count Int?     @default(0)
-  timestamp     DateTime @default(now()) @db.Timestamp(0)
+  id                     String                  @id @db.VarChar(50)
+  username               String                  @db.VarChar(20)
+  content                String?                 @db.VarChar(280)
+  attachments            String?                 @db.Text
+  reply_to               String?                 @db.VarChar(50)
+  like_count             Int?                    @default(0)
+  reply_count            Int?                    @default(0)
+  retweet_count          Int?                    @default(0)
+  timestamp              DateTime                @default(now()) @db.Timestamp(0)
+  phone_twitter_promoted phone_twitter_promoted?
 }
 
 model phone_wallet_transactions {
@@ -1024,6 +1034,7 @@ model player_warns {
 model players {
   id              Int      @default(autoincrement())
   citizenid       String   @id @db.VarChar(50)
+  steamid         String?  @db.VarChar(55)
   cid             Int?
   license         String   @db.VarChar(255)
   name            String   @db.VarChar(255)
@@ -1095,18 +1106,21 @@ model stashitems {
   @@index([id], map: "id")
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model stats_player_money {
-  citizenid String    @id @db.VarChar(50)
+  citizenid String    @db.VarChar(50)
   money     Float     @default(0) @db.Float
   cash      Float     @default(0) @db.Float
   bank      Float     @default(0) @db.Float
   date      DateTime? @default(now()) @db.Date
+
+  @@ignore
 }
 
 model stats_server_money {
   id    Int      @id @default(autoincrement())
   money Float    @default(0) @db.Float
-  date  DateTime @unique(map: "date") @default(now()) @db.Date
+  date  DateTime @default(now()) @db.DateTime(0)
 }
 
 model trunkitems {
@@ -1141,6 +1155,133 @@ model stats_players_online {
   date   DateTime? @default(now()) @db.DateTime(0)
 }
 
+model hunk_ac {
+  token            String? @db.LongText
+  license          String  @id @db.VarChar(50)
+  identifier       String? @db.VarChar(25)
+  liveid           String? @db.VarChar(21)
+  xblid            String? @db.VarChar(21)
+  discord          String? @db.VarChar(30)
+  playerip         String? @db.VarChar(25)
+  targetplayername String? @db.VarChar(32)
+  reason           String  @db.VarChar(255)
+}
+
+model hunk_ac_admin {
+  id        Int    @id @default(autoincrement())
+  license   String @db.VarChar(255)
+  steamname String @default("") @db.VarChar(255)
+  type      String @db.VarChar(255)
+}
+
+model phone_instagram_stories {
+  id                            String                          @id @db.VarChar(50)
+  username                      String                          @db.VarChar(20)
+  image                         String                          @db.VarChar(200)
+  timestamp                     DateTime                        @default(now()) @db.Timestamp(0)
+  phone_instagram_accounts      phone_instagram_accounts        @relation(fields: [username], references: [username], onDelete: Cascade, onUpdate: Restrict, map: "phone_instagram_stories_ibfk_1")
+  phone_instagram_stories_views phone_instagram_stories_views[]
+
+  @@index([username], map: "username")
+}
+
+model phone_instagram_stories_views {
+  story_id                String                  @db.VarChar(50)
+  viewer                  String                  @db.VarChar(20)
+  timestamp               DateTime                @default(now()) @db.Timestamp(0)
+  phone_instagram_stories phone_instagram_stories @relation(fields: [story_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_instagram_stories_views_ibfk_1")
+
+  @@id([story_id, viewer])
+}
+
+model phone_maps_locations {
+  id           String @id @db.VarChar(50)
+  phone_number String @db.VarChar(15)
+  name         String @db.VarChar(50)
+  x_pos        Float  @db.Float
+  y_pos        Float  @db.Float
+}
+
+model phone_twitter_promoted {
+  tweet_id             String               @id @db.VarChar(50)
+  promotions           Int                  @default(0)
+  views                Int                  @default(0)
+  phone_twitter_tweets phone_twitter_tweets @relation(fields: [tweet_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "phone_twitter_promoted_ibfk_1")
+}
+
+model ra_racing_events {
+  id                Int      @id @default(autoincrement())
+  player_identifier String   @db.VarChar(60)
+  text              String   @db.VarChar(100)
+  created_at        DateTime @default(now()) @db.DateTime(0)
+}
+
+model ra_racing_races {
+  id                    Int                 @id @default(autoincrement())
+  track_id              Int
+  started_by_identifier String              @db.VarChar(60)
+  participant_amount    Int?
+  is_competition        Int                 @db.TinyInt
+  prize_money           Int?                @default(0)
+  start_time            DateTime?           @db.DateTime(0)
+  vehicle_class         String?             @db.VarChar(4)
+  lap_amount            Int?                @db.TinyInt
+  finished_at           DateTime?           @db.DateTime(0)
+  ra_racing_results     ra_racing_results[]
+}
+
+model ra_racing_results {
+  id                 Int              @id @default(autoincrement())
+  race_id            Int
+  track_id           Int
+  player_identifier  String           @default("") @db.VarChar(60)
+  position           Int?
+  prize_money        Int?             @default(0)
+  rating_gain        Int?             @default(0)
+  vehicle_model      String?          @db.VarChar(100)
+  vehicle_model_name String?          @db.VarChar(100)
+  vehicle_class      String?          @db.VarChar(100)
+  best_time          Int?
+  best_time_string   String           @db.VarChar(40)
+  total_time         Int?
+  total_time_string  String           @db.VarChar(40)
+  finished_at        DateTime         @default(now()) @db.DateTime(0)
+  ra_racing_races    ra_racing_races  @relation(fields: [race_id], references: [id], onUpdate: Restrict, map: "FK_ra_racing_results_ra_racing_races")
+  ra_racing_tracks   ra_racing_tracks @relation(fields: [track_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_ra_racing_results_ra_racing_tracks")
+
+  @@index([race_id], map: "FK_ra_racing_results_ra_racing_races")
+  @@index([track_id], map: "FK_ra_racing_results_ra_racing_tracks")
+}
+
+model ra_racing_tracks {
+  id                 Int                   @id @default(autoincrement())
+  creator_identifier String                @db.VarChar(60)
+  name               String                @db.VarChar(100)
+  description        String                @db.VarChar(100)
+  type               ra_racing_tracks_type
+  checkpoints        String                @db.LongText
+  objects            String                @db.LongText
+  is_deleted         Int                   @default(0) @db.TinyInt
+  created_at         DateTime              @default(now()) @db.DateTime(0)
+  ra_racing_results  ra_racing_results[]
+}
+
+model ra_racing_user_settings {
+  player_identifier String   @id @db.VarChar(60)
+  alias             String?  @default("Unnamed") @db.VarChar(40)
+  profile_picture   String   @default("https://i.imgur.com/Lu9dGJH.png") @db.VarChar(100)
+  rating            Int?     @default(1400) @db.SmallInt
+  created_at        DateTime @default(now()) @db.DateTime(0)
+}
+
+model stats_players_combat {
+  citizenid       String @id @db.VarChar(50)
+  bullets_fired   Int    @default(0)
+  damage_taken    Int    @default(0)
+  length_traveled Int    @default(0)
+  deaths          Int    @default(0)
+}
+
 enum management_funds_type {
   boss
   gang
@@ -1151,4 +1292,9 @@ enum bank_accounts_account_type {
   Savings
   Business
   Gang
+}
+
+enum ra_racing_tracks_type {
+  SPRINT
+  CIRCUIT
 }

@@ -11,7 +11,7 @@ const fetchLicense = async(steamId: string) => {
 
 	try {
 		const raw = await fetch(`${SITE_URL}api/auth/fetch-license?steam=${steamId}`)
-		const data  = await raw.json();
+		const data = await raw.json();
 
 		unformated = data.unformated
 		formated = data.formated
