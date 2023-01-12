@@ -24,13 +24,35 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const BlogSection = () => {
+const BlogSection = ({ posts }: any) => {
   const { classes } = useStyles();
-  const [date, setDate] = useState('1970-01-01');
 
-  useEffect(() => {
-    setDate(new Date(Date.now()).toLocaleString());
-  }, [])
+	const getBadeColor = (type: string) => {
+    switch (type) {
+      case 'UPPDATERING':
+        return 'green'
+
+      case 'NYHET':
+        return 'orange';
+
+      case 'EVENT':
+        return 'grape';
+    
+      default:
+        return 'blue'
+    }
+  }
+
+  const useFormattedDate = (date: string) => {
+    const [formattedDate, setFormattedDate] =useState('');
+  
+    useEffect(
+      () => setFormattedDate(new Date(date).toLocaleDateString("sv-SE")),
+      []
+    );
+  
+    return formattedDate;
+  };
 
 	return (
 		<Paper withBorder radius="md" p="xs">
@@ -41,116 +63,49 @@ const BlogSection = () => {
 			</Group>
 
 			<Grid mt={8}>
-				<Grid.Col span={4}>
-					<Card
-						withBorder
-						p="lg"
-						radius="md"
-						className={classes.card}
-					>
-						<Card.Section mb="sm">
-							<Image
-								src="https://wallpaperaccess.com/full/899965.jpg"
-								alt="Article image"
-								height={180}
-							/>
-						</Card.Section>
-
-						<Badge color="green">UPPDATERING</Badge>
-
-						<Text
-							weight={700}
-							className={classes.title}
-							mt="xs"
-							lineClamp={1}
+				{posts.map((post: any) => (
+					<Grid.Col span={4} key={post.blog.blogSlug}>
+						<Card
+							withBorder
+							p="lg"
+							radius="md"
+							className={classes.card}
+							component="a"
+							href={`./news/${post.blog.blogSlug}`}
 						>
-							Detta är ett exempel på en nyhet
-						</Text>
+							<Card.Section mb="sm">
+								<Image
+									src={post.blog.blogImage.url}
+									alt="Article image"
+									height={180}
+									fit="contain"
+								/>
+							</Card.Section>
 
-						<Group mt="lg">
-							<div>
-								<Text weight={500}>Raven</Text>
-								<Text size="xs" color="dimmed">
-									Publicerades: {date}
-								</Text>
-							</div>
-						</Group>
-					</Card>
-				</Grid.Col>
+							{post.blog.type ? (
+								<Badge color={getBadeColor(post.blog.type)}>{post.blog.type}</Badge>
+							): null}
 
-				<Grid.Col span={4}>
-					<Card
-						withBorder
-						p="lg"
-						radius="md"
-						className={classes.card}
-					>
-						<Card.Section mb="sm">
-							<Image
-								src="https://wallpaperaccess.com/full/899965.jpg"
-								alt="Article image"
-								height={180}
-							/>
-						</Card.Section>
+							<Text
+								weight={700}
+								className={classes.title}
+								mt="xs"
+								lineClamp={1}
+							>
+								{post.blog.blogTitle}
+							</Text>
 
-						<Badge color="green">UPPDATERING</Badge>
-
-						<Text
-							weight={700}
-							className={classes.title}
-							mt="xs"
-							lineClamp={1}
-						>
-							Detta är ett exempel på en nyhet
-						</Text>
-
-						<Group mt="lg">
-							<div>
-								<Text weight={500}>Raven</Text>
-								<Text size="xs" color="dimmed">
-									Publicerades: {date}
-								</Text>
-							</div>
-						</Group>
-					</Card>
-				</Grid.Col>
-
-				<Grid.Col span={4}>
-					<Card
-						withBorder
-						p="lg"
-						radius="md"
-						className={classes.card}
-					>
-						<Card.Section mb="sm">
-							<Image
-								src="https://wallpaperaccess.com/full/899965.jpg"
-								alt="Article image"
-								height={180}
-							/>
-						</Card.Section>
-
-						<Badge color="green">UPPDATERING</Badge>
-
-						<Text
-							weight={700}
-							className={classes.title}
-							mt="xs"
-							lineClamp={1}
-						>
-							Detta är ett exempel på en nyhet
-						</Text>
-
-						<Group mt="lg">
-							<div>
-								<Text weight={500}>Raven</Text>
-								<Text size="xs" color="dimmed">
-									Publicerades: {date}
-								</Text>
-							</div>
-						</Group>
-					</Card>
-				</Grid.Col>
+							<Group mt="lg">
+								<div>
+									<Text weight={500}>Raven</Text>
+									<Text size="xs" color="dimmed">
+										Publicerades: {useFormattedDate(post.createdAt)}
+									</Text>
+								</div>
+							</Group>
+						</Card>
+					</Grid.Col>
+				))}
 			</Grid>
 		</Paper>
 	);

@@ -1,4 +1,4 @@
-import { Badge, Card, Center, createStyles, Grid, Group, Image, Text } from "@mantine/core"
+import { Badge, Card, Center, createStyles, Grid, Group, Image, Paper, Text } from "@mantine/core"
 import { IconClock, IconEye, IconMessageCircle } from "@tabler/icons";
 import { useEffect, useState } from "react";
 
@@ -63,6 +63,22 @@ const useStyles = createStyles((theme, _params, getRef) => {
 const BlogGrid = ({ blogs, limit = true }: any) => {
   const { classes, theme } = useStyles();
 
+  const getBadeColor = (type: string) => {
+    switch (type) {
+      case 'UPPDATERING':
+        return 'green'
+
+      case 'NYHET':
+        return 'orange';
+
+      case 'EVENT':
+        return 'grape';
+    
+      default:
+        return 'blue'
+    }
+  }
+
   const useFormattedDate = (date: string) => {
     const [formattedDate, setFormattedDate] =useState('');
   
@@ -75,48 +91,53 @@ const BlogGrid = ({ blogs, limit = true }: any) => {
   };
 
   return (
-    <Grid mt={8}>
-      {blogs.slice(0, (limit ? 6 : blogs.length)).map((blog: any, index: number) => (
-        <Grid.Col span={4}>
-          <Card
-            withBorder
-            p="lg"
-            radius="md"
-            className={classes.card}
-            component="a"
-            href={`./news/${blog.blog.blogSlug}`}
-          >
-            <Card.Section mb="sm">
-              <Image
-                src={blog.blog.blogImage.url}
-                alt="Article image"
-                height={180}
-              />
-            </Card.Section>
-
-            <Badge color="green">UPPDATERING</Badge>
-
-            <Text
-              weight={700}
-              className={classes.title}
-              mt="xs"
-              lineClamp={1}
+    <Paper>
+      <Grid mt={8}>
+        {blogs.slice(0, (limit ? 6 : blogs.length)).map((blog: any, index: number) => (
+          <Grid.Col span={4}>
+            <Card
+              withBorder
+              p="lg"
+              radius="md"
+              className={classes.card}
+              component="a"
+              href={`./news/${blog.blog.blogSlug}`}
             >
-              {blog.blog.blogTitle}
-            </Text>
+              <Card.Section mb="sm">
+                <Image
+                  src={blog.blog.blogImage.url}
+                  alt="Article image"
+                  height={180}
+                  fit="contain"
+                />
+              </Card.Section>
 
-            <Group mt="lg">
-              <div>
-                <Text weight={500}>{blog.author.authorName}</Text>
-                <Text size="xs" color="dimmed">
-                  Publicerades: {useFormattedDate(blog.createdAt)}
-                </Text>
-              </div>
-            </Group>
-          </Card>
-        </Grid.Col>
-      ))}
-    </Grid>
+              {blog.blog.type ? (
+								<Badge color={getBadeColor(blog.blog.type)}>{blog.blog.type}</Badge>
+							): null}
+
+              <Text
+                weight={700}
+                className={classes.title}
+                mt="xs"
+                lineClamp={1}
+              >
+                {blog.blog.blogTitle}
+              </Text>
+
+              <Group mt="lg">
+                <div>
+                  <Text weight={500}>{blog.author.authorName}</Text>
+                  <Text size="xs" color="dimmed">
+                    Publicerades: {useFormattedDate(blog.createdAt)}
+                  </Text>
+                </div>
+              </Group>
+            </Card>
+          </Grid.Col>
+        ))}
+      </Grid>
+    </Paper>
   )
 }
 

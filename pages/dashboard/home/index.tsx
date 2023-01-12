@@ -6,6 +6,7 @@ import {
 	Paper,
 	ScrollArea,
 	Select,
+	Skeleton,
 	Table,
 	Title,
 	useMantineTheme,
@@ -25,8 +26,41 @@ import {
 } from "recharts";
 import { useState } from "react";
 import { DashInfo } from "@molecules/DashInfo";
+import { Hygraph } from "@utils/libs/Hygraph";
+
+export async function getServerSideProps() {
+  const { blogPosts } = await Hygraph.request(`
+    {
+      blogPosts {
+        createdAt
+        blog {
+					type
+          blogTitle
+          blogSlug
+          blogImage {
+            url
+          }
+        }
+        author {
+          authorName
+          authorPicture {
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return {
+    props: {
+      blogPosts
+    }
+  };
+}
 
 const Home = (props: ISteamProps) => {
+	//@ts-ignore
+	const { blogPosts } = props.pageProps;
 	const { user: steam } = props.steam;
 	const { ref, height } = useElementSize();
 	const [interval, setInterval] = useState<string>("24h");
@@ -35,7 +69,7 @@ const Home = (props: ISteamProps) => {
 	const { data: time_stats } = useSWR(
 		`/api/bygden/fetch-player-stats?interval=${interval}`
 	);
-	const { data: info } = useSWR(
+	const { data: info, isLoading } = useSWR(
 		`/api/bygden/basic-info?license=${steam.fivemLicenseFormat}`,
 		{
 			refreshInterval: 60 * 1000,
@@ -45,13 +79,13 @@ const Home = (props: ISteamProps) => {
 	return (
 		<Container fluid>
 			<Grid>
-				<DashInfo serverInfo={info} />
+				<DashInfo serverInfo={info} isLoading={isLoading} />
 			</Grid>
 
 			<Grid mt={24}>
 				<Grid.Col span={8}>
 					<Container fluid p={0} ref={ref}>
-						<BlogSection />
+						<BlogSection posts={blogPosts} />
 					</Container>
 				</Grid.Col>
 
@@ -77,29 +111,31 @@ const Home = (props: ISteamProps) => {
 								type="always"
 								offsetScrollbars
 							>
-								<Table>
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th>Namn</th>
-											<th>Ping</th>
-										</tr>
-									</thead>
+								<Skeleton visible={isLoading}>
+									<Table>
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Namn</th>
+												<th>Ping</th>
+											</tr>
+										</thead>
 
-									<tbody>
-										{info?.players?.map(
-											(player: IServerListPlayer) => (
-												<tr key={player.id}>
-													<td>
-														<Code>{player.id}</Code>
-													</td>
-													<td>{player.name}</td>
-													<td>{player.ping}ms</td>
-												</tr>
-											)
-										)}
-									</tbody>
-								</Table>
+										<tbody>
+											{info?.players?.map(
+												(player: IServerListPlayer) => (
+													<tr key={player.id}>
+														<td>
+															<Code>{player.id}</Code>
+														</td>
+														<td>{player.name}</td>
+														<td>{player.ping}ms</td>
+													</tr>
+												)
+											)}
+										</tbody>
+									</Table>
+								</Skeleton>
 							</ScrollArea>
 						</Paper>
 					</Container>
