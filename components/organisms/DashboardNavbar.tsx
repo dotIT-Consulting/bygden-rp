@@ -18,6 +18,7 @@ import {
 	IconDatabase,
 	IconMap,
 	IconTool,
+	IconChartBar,
 } from "@tabler/icons";
 import { LinksGroup } from "@atoms/LinksGroup";
 import { useStore } from "@utils/libs/Zustand";
@@ -33,6 +34,7 @@ const mockdata = [
 	{ label: "Ärenden", icon: IconLifebuoy, link: "/dashboard/tickets" },
 	{ label: "Verktyg", icon: IconTool, link: "/dashboard/tools", admin: true },
 	{ label: "Loggar", icon: IconDatabase, link: "/dashboard/logs", admin: true },
+	{ label: "Server statistik", icon: IconChartBar, link: "/dashboard/server-stats", admin: true },
 	{ label: "Karta", icon: IconMap, link: "/dashboard/map", admin: true },
 ];
 
@@ -117,7 +119,7 @@ const DashboardNavbar = () => {
 	}, [characters]);
 
 	const linkArray = mockdata.filter((element) => {
-		if (!steamProfile?.isAdmin) {
+		if (!steamProfile?.staff) {
 			return element.admin !== true;
 		}
 
@@ -130,7 +132,7 @@ const DashboardNavbar = () => {
 
 	const links = linkArray.map((item) => (
 		<React.Fragment key={item.label}>
-			{adminIndex?.label === item.label && steamProfile?.isAdmin ? (
+			{adminIndex?.label === item.label && steamProfile?.staff?.allowed ? (
 				<Divider
 					ml={theme.spacing.md}
 					mr={theme.spacing.md}

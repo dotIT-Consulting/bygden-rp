@@ -26,6 +26,23 @@ const fetchLicense = async(steamId: string) => {
 	}
 }
 
+const fetchIsStaff = async (steamId: string) => {
+	try {
+		const raw = await fetch(`${SITE_URL}api/auth/fetch-admin?steam=${steamId}`)
+		const data = await raw.json();
+
+		return data
+		
+	} catch (error) {
+		console.log(error)
+	}
+
+	return {
+		staff: false,
+		role: 'user'
+	}
+}
+
 passport.serializeUser((user, done) => {
 	done(null, user);
 });
@@ -42,13 +59,22 @@ passport.use(new SteamStrategy({
 	let steam_profile = profile;
 
 	const hexId = ToHex(profile.id);
-	const { formated, unformated } = await fetchLicense(`steam:${hexId}`)
+	const steamId = `steam:${hexId}`
+
+	const { formated, unformated } = await fetchLicense(steamId)
+	const { allowed, role } = await fetchIsStaff(steamId)
 
 	steam_profile['hexId'] = hexId
-	steam_profile['hexIdFormat'] = `steam:${hexId}`
+	steam_profile['hexIdFormat'] = steamId
 	steam_profile['fivemLicense'] = unformated
 	steam_profile['fivemLicenseFormat'] = formated
-	steam_profile['isAdmin'] = true
+
+	if (allowed) {
+		steam_profile['staff'] = {
+			allowed,
+			role
+		}
+	}
 
 	return done(null, steam_profile);
 }));

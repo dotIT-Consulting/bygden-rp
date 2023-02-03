@@ -73,7 +73,10 @@ interface ISteamResponse {
   hex_id_format: string | undefined,
   fivemLicense: string | undefined,
   fivemLicenseFormat: string | undefined,
-  isAdmin: boolean
+  staff?: {
+    allowed: boolean,
+    role: 'ROOT' | 'ADMIN' | 'MOD'
+  }
 }
 
 interface ISteamProps {
