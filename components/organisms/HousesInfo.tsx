@@ -4,7 +4,7 @@ import { IconHome } from "@tabler/icons"
 const HousesInfo = ({ info, isLoading} : { info: any, isLoading: boolean }) => {
 
   return (
-    <Grid.Col span={4}>
+    <Grid.Col span={3}>
       <Paper withBorder radius="md" p="xs" sx={{ maxHeight: 500, height: 500 }}>
         <Group mb={8} position="left">
           <IconHome size={24} />

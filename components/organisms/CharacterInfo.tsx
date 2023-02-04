@@ -6,50 +6,27 @@ import {
 	Stack,
 	Title,
 	Text,
-	Divider,
-	Table,
-	ScrollArea,
-	createStyles,
 } from "@mantine/core";
 import { IconUser } from "@tabler/icons";
 
-const useStyles = createStyles((theme) => ({
-	header: {
-		position: "sticky",
-		top: 0,
-		backgroundColor:
-			theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-		transition: "box-shadow 150ms ease",
+const calculateEconomy = (character_info: any) => {
+	let cash = 0;
+	const bank = character_info?.money?.bank;
+	const pInventory = character_info?.inventory;
 
-		"&::after": {
-			content: '""',
-			position: "absolute",
-			left: 0,
-			right: 0,
-			bottom: 0,
-			borderBottom: `1px solid ${
-				theme.colorScheme === "dark"
-					? theme.colors.dark[3]
-					: theme.colors.gray[2]
-			}`,
-		},
-	},
-}));
+	for (const index in pInventory) {
+		const item = pInventory[index];
 
-const getExtraInfo = (item: any) => {
-	switch (item.name) {
-		case "vehiclekey":
-			return `${item.info.plate} | ${item.info.model}`;
-
-		case "phone":
-			return `${item.info.lbPhoneNumber}`;
-
-		case "id_card":
-			return `${item.info.firstname} ${item.info.lastname} | ${item.info.birthdate}`;
-
-		default:
-			return "N/A";
+		if (item?.name === "cash") {
+			cash += item?.amount;
+		}
 	}
+
+	return {
+		bank: Math.floor(bank),
+		cash: Math.floor(cash),
+		total: Math.floor(bank + cash),
+	};
 };
 
 const CharacterInfo = ({
@@ -59,19 +36,14 @@ const CharacterInfo = ({
 	info: any;
 	isLoading: boolean;
 }) => {
-	const { classes } = useStyles();
-
-	const rows = character_info?.inventory?.map((item: any, index: number) => (
-		<tr key={index}>
-			<td>{item.label}</td>
-			<td>{item.amount}</td>
-			<td>{getExtraInfo(item)}</td>
-		</tr>
-	));
-
 	return (
-		<Grid.Col span={4}>
-			<Paper withBorder radius="md" p="xs" sx={{ maxHeight: 500, height: 500 }}>
+		<Grid.Col span={3}>
+			<Paper
+				withBorder
+				radius="md"
+				p="xs"
+				sx={{ maxHeight: 500, height: 500 }}
+			>
 				<Group mb={8} position="left">
 					<IconUser size={24} />
 					<Title order={3} transform="uppercase">
@@ -84,9 +56,31 @@ const CharacterInfo = ({
 						<Grid.Col span={4}>
 							<Stack spacing={4}>
 								<Text fz="xs" c="dimmed">
+									Karaktärs ID
+								</Text>
+								<Text>{character_info?.charinfo?.cid}</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
 									Namn
 								</Text>
 								<Text>{`${character_info?.charinfo?.firstname} ${character_info?.charinfo?.lastname}`}</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Kön
+								</Text>
+								<Text>
+									{character_info?.charinfo?.gender === 0
+										? "Man"
+										: "Kvinna"}
+								</Text>
 							</Stack>
 						</Grid.Col>
 
@@ -104,11 +98,73 @@ const CharacterInfo = ({
 						<Grid.Col span={4}>
 							<Stack spacing={4}>
 								<Text fz="xs" c="dimmed">
+									Nationalitet
+								</Text>
+								<Text>
+									{character_info?.charinfo?.nationality}
+								</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
 									Blodtyp
 								</Text>
 								<Text>
 									{character_info?.metadata?.bloodtype ??
 										"Okänt"}
+								</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Bank
+								</Text>
+								<Text>
+									{Intl.NumberFormat("sv-SE", {
+										notation: "compact",
+										maximumFractionDigits: 2,
+									}).format(
+										calculateEconomy(character_info).bank ??
+											0
+									)}
+								</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Kontanter
+								</Text>
+								<Text>
+									{Intl.NumberFormat("sv-SE", {
+										notation: "compact",
+										maximumFractionDigits: 2,
+									}).format(
+										calculateEconomy(character_info).cash ??
+											0
+									)}
+								</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Total ekonomi
+								</Text>
+								<Text>
+									{Intl.NumberFormat("sv-SE", {
+										notation: "compact",
+										maximumFractionDigits: 2,
+									}).format(
+										calculateEconomy(character_info)
+											.total ?? 0
+									)}
 								</Text>
 							</Stack>
 						</Grid.Col>
@@ -187,28 +243,41 @@ const CharacterInfo = ({
 								</Text>
 							</Stack>
 						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Jobb
+								</Text>
+								<Text>
+									{character_info?.job?.label ?? "Okänt"}
+								</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Grad
+								</Text>
+								<Text>
+									{character_info?.job?.grade?.name ??
+										"Okänt"}
+								</Text>
+							</Stack>
+						</Grid.Col>
+
+						<Grid.Col span={4}>
+							<Stack spacing={4}>
+								<Text fz="xs" c="dimmed">
+									Lön
+								</Text>
+								<Text>
+									{character_info?.job?.payment ?? "N/A"}
+								</Text>
+							</Stack>
+						</Grid.Col>
 					</Grid>
-
-					<Divider mt={16} mb={16} />
-
-					<ScrollArea
-						type="never"
-						sx={{
-							height: 250,
-							paddingBottom: 32
-						}}
-					>
-						<Table>
-							<thead className={classes.header}>
-								<tr>
-									<th>Föremål</th>
-									<th>Antal</th>
-									<th>Extra</th>
-								</tr>
-							</thead>
-							<tbody>{rows}</tbody>
-						</Table>
-					</ScrollArea>
 				</Skeleton>
 			</Paper>
 		</Grid.Col>

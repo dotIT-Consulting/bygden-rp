@@ -64,7 +64,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         engine: true,
         body: true,
         damages: true,
-        mods: true
+        mods: true,
+        state: true
       },
       where: {
         citizenid: citizenid as string
