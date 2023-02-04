@@ -21,9 +21,6 @@
       "@pages/*": ["./components/pages/*"],
       "@utils/*": ["./utils/*"]
     },
-    "sourceMap": true,
-    "inlineSources": true,
-    "sourceRoot": "/"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
