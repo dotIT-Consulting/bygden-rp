@@ -1,12 +1,27 @@
 import { prisma } from "@utils/libs/Prisma";
+//@ts-ignore
+import JSONbig from 'json-bigint';
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const parseJSON = (json: any) => {
+const parseJSON = (json: any, vehicle = false) => {
   let jsonData = {}
+
+  if (vehicle) {
+    let vehicleData = null
+    for (const key in json) {
+      vehicleData = json[key]
+
+      if (typeof vehicleData.mods === 'string') {
+        vehicleData.mods = JSONbig.parse(vehicleData.mods)
+      }
+    }
+  
+    return vehicleData
+  }
   
   for (const key in json) {
     try {
-      const parsed = JSON.parse(json[key])
+      const parsed = JSONbig.parse(json[key])
       //@ts-ignore
       jsonData[key] = parsed
     } catch (error) {
@@ -48,7 +63,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         fuel: true,
         engine: true,
         body: true,
-        damages: true
+        damages: true,
+        mods: true
       },
       where: {
         citizenid: citizenid as string
@@ -64,11 +80,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    const parsed = parseJSON(character)
+    const parsedCharacter = parseJSON(character)
+
+    const parsedVehicle = parseJSON(vehicles, true)
 
     return res.status(200).send({
-      character_info: parsed,
-      vehicles: vehicles,
+      character_info: parsedCharacter,
+      vehicles: parsedVehicle,
       houses: houses
     });
   } catch (error) {

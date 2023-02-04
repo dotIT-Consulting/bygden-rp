@@ -19,6 +19,9 @@ const useStyles = createStyles((theme) => ({
       }`,
     },
   },
+  tranformText: {
+    textTransform: 'capitalize'
+  }
 }));
 
 const getPercentage = (current: number, max: number) => {
@@ -30,9 +33,9 @@ const VehiclesInfo = ({ info, isLoading} : { info: any, isLoading: boolean}) => 
 
   const rows = info?.map((vehicle: any, index: number) => (
     <tr key={index}>
-      <td>{vehicle.vehicle}</td>
+      <td>{vehicle.modelName ?? vehicle.vehicle}</td>
       <td>{vehicle.plate}</td>
-      <td>{vehicle.garage}</td>
+      <td className={classes.tranformText}>{vehicle.garage}</td>
       <td>{`${vehicle.fuel}%`}</td>
       <td>{getPercentage(vehicle.engine, 1000)}</td>
       <td>{getPercentage(vehicle.body, 1000)}</td>
