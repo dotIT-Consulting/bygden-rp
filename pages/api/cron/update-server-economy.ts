@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
 import { prisma } from '@utils/libs/Prisma';
-import JSONBig from 'json-bigint';
 
 const parseJson = (json: any) => {
   try {
-    const data = JSONBig.parse(json);
+    const data = JSON.parse(json);
     return data
   } catch (error) {
     console.log(error)
@@ -30,27 +29,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     let serverEconomy = 0;
-    
+
     for (const index in data) {
-      const { money, inventory } = data[index];
+      try {
+        const { money, inventory } = data[index];
 
-      const balance = parseJson(money);
-      const { bank } = balance;
-
-      const inv = parseJson(inventory)
-      let cash = 0
-
-      for (const index in inv) {
-        const pInv = inv[index];
-
-        if (pInv?.name === "cash") {
-          cash = pInv?.amount
+        const balance = parseJson(money);
+        const { bank } = balance;
+  
+        const inv = parseJson(inventory)
+        let cash = 0
+  
+        for (const index in inv) {
+          const pInv = inv[index];
+  
+          if (pInv?.name === "cash") {
+            cash = pInv?.amount
+          }
         }
+  
+        serverEconomy += Math.floor(bank + cash);
+      } catch (err) {
+        console.log(err)
       }
-
-      serverEconomy += Math.floor(bank + cash);
     }
-
 
     await prisma.stats_server_money.create({
       data: {
