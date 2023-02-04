@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
 import { prisma } from '@utils/libs/Prisma';
+import JSONBig from 'json-bigint';
 
 //@ts-ignore
 const parseJson = (json: any) => {
   try {
-    const data = JSON.parse(json);
+    const data = JSONBig.parse(json);
     return data
   } catch (error) {
     console.log(error)
