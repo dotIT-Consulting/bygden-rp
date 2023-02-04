@@ -1,6 +1,4 @@
 import { prisma } from "@utils/libs/Prisma";
-//@ts-ignore
-import JSONbig from 'json-bigint';
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const parseJSON = (json: any, vehicle = false) => {
@@ -12,7 +10,7 @@ const parseJSON = (json: any, vehicle = false) => {
       vehicleData = json[key]
 
       if (typeof vehicleData.mods === 'string') {
-        vehicleData.mods = JSONbig.parse(vehicleData.mods)
+        vehicleData.mods = JSON.parse(vehicleData.mods)
       }
     }
   
@@ -21,7 +19,7 @@ const parseJSON = (json: any, vehicle = false) => {
   
   for (const key in json) {
     try {
-      const parsed = JSONbig.parse(json[key])
+      const parsed = JSON.parse(json[key])
       //@ts-ignore
       jsonData[key] = parsed
     } catch (error) {
