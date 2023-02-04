@@ -19,8 +19,11 @@ const useStyles = createStyles((theme) => ({
       }`,
     },
   },
-  tranformText: {
+  capitalizeText: {
     textTransform: 'capitalize'
+  },
+  uppercaseText: {
+    textTransform: 'uppercase'
   }
 }));
 
@@ -33,9 +36,9 @@ const VehiclesInfo = ({ info, isLoading} : { info: any, isLoading: boolean}) => 
 
   const rows = info?.map((vehicle: any, index: number) => (
     <tr key={index}>
-      <td>{vehicle.modelName ?? vehicle.vehicle}</td>
+      <td className={classes.uppercaseText}>{vehicle.mods.modelName ?? vehicle.vehicle}</td>
       <td>{vehicle.plate}</td>
-      <td className={classes.tranformText}>{vehicle.garage}</td>
+      <td className={classes.capitalizeText}>{vehicle.garage}</td>
       <td>{`${vehicle.fuel}%`}</td>
       <td>{getPercentage(vehicle.engine, 1000)}</td>
       <td>{getPercentage(vehicle.body, 1000)}</td>

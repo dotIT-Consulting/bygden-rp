@@ -3,18 +3,20 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const parseJSON = (json: any, vehicle = false) => {
   let jsonData = {}
+  let vehData = []
 
   if (vehicle) {
-    let vehicleData = null
     for (const key in json) {
-      vehicleData = json[key]
+      let vehicleData = json[key]
 
       if (typeof vehicleData.mods === 'string') {
         vehicleData.mods = JSON.parse(vehicleData.mods)
       }
+
+      vehData.push(vehicleData)
     }
   
-    return vehicleData
+    return vehData
   }
   
   for (const key in json) {
