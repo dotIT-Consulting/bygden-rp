@@ -1,6 +1,22 @@
 import { prisma } from "@utils/libs/Prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+const parseJSON = (json: any) => {
+  let jsonData = {}
+  
+  for (const key in json) {
+    try {
+      const parsed = JSON.parse(json[key])
+      //@ts-ignore
+      jsonData[key] = parsed
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return jsonData
+}
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { citizenid } = req.query;
   if (req.method !== "GET" || !citizenid) {
@@ -18,8 +34,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         gang: true,
         metadata: true,
         inventory: true,
-        last_updated: true,
-
       },
       where: {
         citizenid: citizenid as string
@@ -50,10 +64,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    const response = {...character, vehicles, houses}
+    const parsed = parseJSON(character)
 
     return res.status(200).send({
-      character: response ?? [],
+      character_info: parsed,
+      vehicles: vehicles,
+      houses: houses
     });
   } catch (error) {
     console.log(error)

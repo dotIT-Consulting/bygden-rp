@@ -19,9 +19,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
     })
 
+    const num = await prisma.site_admins.count()
+
     return res.status(200).json({
       allowed: data?.role ? true : false,
-      role: data?.role
+      role: data?.role,
+      numStaff: num
     })
 	
 	} catch(error) {

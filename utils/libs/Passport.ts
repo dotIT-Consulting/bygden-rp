@@ -62,7 +62,7 @@ passport.use(new SteamStrategy({
 	const steamId = `steam:${hexId}`
 
 	const { formated, unformated } = await fetchLicense(steamId)
-	const { allowed, role } = await fetchIsStaff(steamId)
+	const { allowed, role, numStaff } = await fetchIsStaff(steamId)
 
 	steam_profile['hexId'] = hexId
 	steam_profile['hexIdFormat'] = steamId
@@ -72,7 +72,8 @@ passport.use(new SteamStrategy({
 	if (allowed) {
 		steam_profile['staff'] = {
 			allowed,
-			role
+			role,
+			numStaff
 		}
 	}
 

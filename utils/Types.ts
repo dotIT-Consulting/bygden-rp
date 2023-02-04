@@ -75,7 +75,8 @@ interface ISteamResponse {
   fivemLicenseFormat: string | undefined,
   staff?: {
     allowed: boolean,
-    role: 'ROOT' | 'ADMIN' | 'MOD'
+    role: 'ROOT' | 'ADMIN' | 'MOD',
+    numStaff: number
   }
 }
 

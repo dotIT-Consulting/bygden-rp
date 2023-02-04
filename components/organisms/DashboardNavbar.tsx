@@ -30,7 +30,7 @@ const mockdata = [
 	{ label: "Hem", icon: IconHome, link: "/dashboard/home" },
 	{ label: "Nyheter", icon: IconNews, link: "/dashboard/news" },
 	{ label: "Karaktärer", icon: IconUsers, links: [] },
-	{ label: "Statistik", icon: IconChartAreaLine, link: "/dashboard/stats" },
+	// { label: "Statistik", icon: IconChartAreaLine, link: "/dashboard/stats" },
 	{ label: "Ärenden", icon: IconLifebuoy, link: "/dashboard/tickets" },
 	{ label: "Verktyg", icon: IconTool, link: "/dashboard/tools", admin: true },
 	{ label: "Loggar", icon: IconDatabase, link: "/dashboard/logs", admin: true },

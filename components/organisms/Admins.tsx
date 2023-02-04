@@ -6,7 +6,6 @@ import {
 	Badge,
 	createStyles,
 	Group,
-	Image,
 	Paper,
 	Text,
 } from "@mantine/core";
