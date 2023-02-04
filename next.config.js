@@ -7,9 +7,9 @@ const moduleExports = {
   images: {
     domains: ['media.graphassets.com'],
   },
-  /*sentry: {
-    hideSourceMaps: true,
-  },*/
+  sentry: {
+    hideSourceMaps: false,
+  },
 };
 
 const sentryWebpackPluginOptions = {
@@ -17,5 +17,5 @@ const sentryWebpackPluginOptions = {
 };
 
 
-module.exports = moduleExports;
-//module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+//module.exports = moduleExports;
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);

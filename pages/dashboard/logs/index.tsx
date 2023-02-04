@@ -1,7 +1,11 @@
+import { Button } from "@mantine/core"
+
 const Logs = () => {
 
   return (
-    <p>Logs</p>
+    <Button onClick={() => { throw Error("ASD") }}>
+      asd
+    </Button>
   )
 }
 
