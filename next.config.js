@@ -10,6 +10,15 @@ const moduleExports = {
   sentry: {
     hideSourceMaps: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/dashboard/characters',
+        destination: '/dashboard',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 const sentryWebpackPluginOptions = {
