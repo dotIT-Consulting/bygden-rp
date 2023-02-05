@@ -955,7 +955,7 @@
     "@sentry/types" "7.36.0"
     tslib "^1.9.3"
 
-"@sentry/webpack-plugin@1.20.0":
+"@sentry/webpack-plugin@1.20.0", "@sentry/webpack-plugin@^1.20.0":
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/@sentry/webpack-plugin/-/webpack-plugin-1.20.0.tgz#e7add76122708fb6b4ee7951294b521019720e58"
   integrity sha512-Ssj1mJVFsfU6vMCOM2d+h+KQR7QHSfeIP16t4l20Uq/neqWXZUQ2yvQfe4S3BjdbJXz/X4Rw8Hfy1Sd0ocunYw==
@@ -1481,6 +1481,11 @@
     ajv "8.6.3"
     json-schema-to-ts "1.6.4"
     ts-morph "12.0.0"
+
+"@zeit/next-source-maps@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@zeit/next-source-maps/-/next-source-maps-0.0.3.tgz#d62e93b4f5ccdd542c8530d21f60dd2757d98e3c"
+  integrity sha512-gFDf7yQI8r/fdzTKJG9cp0rhKscRJWs/uebhScj8nZINT16kPTVm23JAi5EivO5pAJmHGzT1A8dwxAhTX0liNw==
 
 abbrev@1:
   version "1.1.1"

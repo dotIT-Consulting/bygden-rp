@@ -14,25 +14,12 @@ const useStyles = createStyles((theme) => ({
 const Settings = () => {
   const { classes } = useStyles();
 
-  const { data, isLoading } = useSWR('/api/admin/fetch-admins');
-
   const { steamProfile } = useStore(
 		(state) => ({
 			steamProfile: state.steamProfile,
 		}),
 		shallow
 	);
-
-  const ads = [
-    {
-      "name": "Raven",
-      "license": "license:afa3270da56c57bb807f90f60d6c0b7db37c31d8",
-      "steam_id": "steam:11000010ba5e9b1",
-      "role": "ROOT",
-      "added_date": "2023-02-03T21:29:34.000Z",
-      "added_by": "Databas"
-    }
-  ]
 
   return (
     <Container fluid>
