@@ -77,7 +77,7 @@ const CharacterInfo = ({
 									Kön
 								</Text>
 								<Text>
-									{character_info?.charinfo?.gender === 0
+									{Number(character_info?.charinfo?.gender) === 0
 										? "Man"
 										: "Kvinna"}
 								</Text>
