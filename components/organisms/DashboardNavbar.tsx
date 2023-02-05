@@ -36,6 +36,7 @@ const mockdata = [
 	{ label: "Loggar", icon: IconDatabase, link: "/dashboard/logs", admin: true },
 	{ label: "Server statistik", icon: IconChartBar, link: "/dashboard/server-stats", admin: true },
 	{ label: "Karta", icon: IconMap, link: "/dashboard/map", admin: true },
+	{ label: "Inställningar", icon: IconTool, link: "/dashboard/settings", admin: true }
 ];
 
 const useStyles = createStyles((theme) => ({

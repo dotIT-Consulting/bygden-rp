@@ -27,6 +27,7 @@ import {
 import { useState } from "react";
 import { DashInfo } from "@molecules/DashInfo";
 import { Hygraph } from "@utils/libs/Hygraph";
+import { IconGraph, IconUsers } from "@tabler/icons";
 
 export async function getServerSideProps() {
   const { blogPosts } = await Hygraph.request(`
@@ -101,9 +102,13 @@ const Home = (props: ISteamProps) => {
 								paddingBottom: 48,
 							}}
 						>
-							<Title order={3} transform="uppercase">
-								Spelare online
-							</Title>
+							<Group mb={8} position="left">
+								<IconUsers size={24} />
+								<Title order={3} transform="uppercase">
+									Spelare online
+								</Title>
+							</Group>
+
 
 							<ScrollArea
 								mt={8}
@@ -145,9 +150,12 @@ const Home = (props: ISteamProps) => {
 			<Container fluid p={0} mt={32}>
 				<Paper withBorder radius="md" p="xs" sx={{ height: "43vh" }}>
 					<Group position="apart">
-						<Title order={3} transform="uppercase">
+						<Group mb={8} position="left">
+							<IconGraph size={32} />
+							<Title order={3} transform="uppercase">
 							Spelar statistik ({interval})
-						</Title>
+							</Title>
+						</Group>
 
 						<Select
 							placeholder="Välj tids intervall"

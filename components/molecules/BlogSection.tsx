@@ -9,6 +9,7 @@ import {
 	Text,
 	Title,
 } from "@mantine/core";
+import { IconNews } from "@tabler/icons";
 import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
@@ -56,11 +57,13 @@ const BlogSection = ({ posts }: any) => {
 
 	return (
 		<Paper withBorder radius="md" p="xs">
-			<Group position="apart">
+			<Group mb={8} position="left">
+				<IconNews size={24} />
 				<Title order={3} transform="uppercase">
-					Senaste nyheterna
+					Nyheter
 				</Title>
 			</Group>
+
 
 			<Grid mt={8}>
 				{posts.map((post: any) => (

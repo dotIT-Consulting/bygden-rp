@@ -99,6 +99,7 @@ model boost_contract {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model cardealer_stock {
   vehicle String? @db.VarChar(255)
   price   Int?    @default(0)
@@ -107,6 +108,7 @@ model cardealer_stock {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -148,6 +150,7 @@ model dealers {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model dpkeybinds {
   id       String? @db.VarChar(50)
   keybind1 String? @default("num4") @db.VarChar(50)
@@ -166,6 +169,7 @@ model dpkeybinds {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -388,6 +392,7 @@ model mdt_convictions {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model mdt_data {
   id          Int     @default(autoincrement())
   cid         String? @db.VarChar(20)
@@ -473,6 +478,7 @@ model occasion_vehicles {
   @@index([occasionid], map: "occasionId")
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -1222,9 +1228,9 @@ model stashitems {
 model stats_player_money {
   id        Int       @id @default(autoincrement())
   citizenid String    @db.VarChar(50)
-  money     BigInt     @default(0) @db.BigInt
-  cash      BigInt     @default(0) @db.BigInt
-  bank      BigInt     @default(0) @db.BigInt
+  money     BigInt    @default(0)
+  cash      BigInt    @default(0)
+  bank      BigInt    @default(0)
   date      DateTime? @default(now()) @db.Date
 }
 
@@ -1286,7 +1292,7 @@ model site_admins {
   steam_id   String           @db.VarChar(255)
   role       site_admins_role @default(MOD)
   added_date DateTime         @default(now()) @db.Timestamp(0)
-  added_by   Int?
+  added_by   String?          @default("Databas") @db.VarChar(255)
 }
 
 model site_logs {
