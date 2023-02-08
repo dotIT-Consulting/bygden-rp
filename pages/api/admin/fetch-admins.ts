@@ -20,7 +20,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
     })
 
-    return res.status(200).json(data)
+    const admins = []
+
+    for (const admin of data as any) {
+      admin.added_date = new Date(admin.added_date).toLocaleString("sv-SE")
+      admins.push(admin)
+    }
+
+    return res.status(200).json(admins)
 	
 	} catch(error) {
 		console.log(error)

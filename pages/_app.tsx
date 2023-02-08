@@ -10,7 +10,7 @@ import router from "@utils/libs/Router";
 import { useStore } from "@utils/libs/Zustand";
 import shallow from "zustand/shallow";
 import { ISteamResponse } from "@utils/Types";
-import  { SWRConfig } from 'swr';
+import { SWRConfig } from 'swr';
 import { GoogleAnalytics } from "nextjs-google-analytics";
 
 const SITE_URL = process.env.NODE_ENV === 'production' ? process.env.SITE_URL : 'http://localhost:3000/'

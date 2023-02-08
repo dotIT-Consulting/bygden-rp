@@ -14,7 +14,6 @@ import {
 	IconUsers,
 	IconLifebuoy,
 	IconNews,
-	IconChartAreaLine,
 	IconDatabase,
 	IconMap,
 	IconTool,

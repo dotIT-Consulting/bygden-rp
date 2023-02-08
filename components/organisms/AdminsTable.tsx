@@ -10,6 +10,9 @@ import {
 	TextInput,
 	Button,
   Badge,
+	Title,
+	Code,
+	Skeleton,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -126,19 +129,7 @@ const sortData = (
 	);
 };
 
-const useFormattedDate = (date: string) => {
-  const [formattedDate, setFormattedDate] =useState('');
-
-  useEffect(
-    () => setFormattedDate(new Date(date).toLocaleString("sv-SE")),
-    []
-  );
-
-  return formattedDate;
-};
-
-const AdminTable = () => {
-  const { data } = useSWR('/api/admin/fetch-admins');
+const AdminTable = ({ data, isLoading} : { data: any, isLoading: boolean }) => {
 
 	const [search, setSearch] = useState("");
 	const [sortedData, setSortedData] = useState(data);
@@ -170,9 +161,9 @@ const AdminTable = () => {
 
 	const rows = sortedData?.map((row: RowData) => (
 		<tr key={row.name}>
-			<td>{row.name}</td>
+			<td><Code>{row.name}</Code></td>
 			<td>{getRoleBadge(row.role)}</td>
-			<td>{useFormattedDate(row.added_date)}</td>
+			<td>{row.added_date}</td>
 			<td>{row.added_by}</td>
 			<td>
 				<Button variant="outline">Ta bort</Button>
@@ -219,10 +210,10 @@ const AdminTable = () => {
 						rows
 					) : (
 						<tr>
-							<td colSpan={0}>
-								<Text weight={500} align="center">
+							<td colSpan={6}>
+								<Title order={3} weight={500} align="center">
 									Inga resultat
-								</Text>
+								</Title>
 							</td>
 						</tr>
 					)}
